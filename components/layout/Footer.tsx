@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Check } from 'lucide-react';
 
 export default function Footer() {
@@ -36,9 +37,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
           {/* Brand Manifesto */}
           <div className="lg:col-span-2 space-y-4">
-            <span className="font-serif-editorial text-2xl tracking-tight text-[#FAF7F2]">
-              MST STORE
-            </span>
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
+              <Image
+                src="/logo.png"
+                alt="MST Brand Logo"
+                width={30}
+                height={30}
+                className="w-7 h-7 object-contain transition-transform group-hover:scale-105"
+              />
+              <span className="font-serif-editorial text-2xl tracking-tight text-[#FAF7F2] group-hover:text-[#FF2D2D] transition">
+                MST Brand
+              </span>
+            </Link>
             <p className="text-xs text-stone-400 leading-relaxed max-w-sm">
               The official merchandise and goodies storefront for MST Blockchain.
               Engineered for builders, contributors, and the global Web3 ecosystem.
@@ -121,7 +131,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
-          <p suppressHydrationWarning>© {new Date().getFullYear()} MST STORE. All rights reserved.</p>
+          <p suppressHydrationWarning>© {new Date().getFullYear()} MST Brand. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span>Prices in INR (₹)</span>
             <span>Razorpay Encrypted Checkout</span>

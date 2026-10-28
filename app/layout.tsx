@@ -22,16 +22,16 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'MST Store — Official Merchandise & Goodies | MST Blockchain',
+  title: 'MST Brand — Official Merchandise & Goodies | MST Blockchain',
   description: 'Official merchandise and goodies storefront for MST Blockchain. Heavyweight hoodies, developer-grade tees, caps, tumblers, and ecosystem gear.',
-  keywords: ['MST Store', 'MST Blockchain', 'MST merchandise', 'Web3 goodies', 'developer hoodies', 'blockchain apparel'],
+  keywords: ['MST Brand', 'MST Blockchain', 'MST merchandise', 'Web3 goodies', 'developer hoodies', 'blockchain apparel'],
   metadataBase: new URL(process.env.APP_URL || 'http://localhost:3000'),
   openGraph: {
-    title: 'MST Store — Official Merchandise & Goodies | MST Blockchain',
+    title: 'MST Brand — Official Merchandise & Goodies | MST Blockchain',
     description: 'Official merchandise and goodies storefront for MST Blockchain. Built for builders, crafted for the decentralized future.',
     type: 'website',
     locale: 'en_IN',
-    siteName: 'MST Store',
+    siteName: 'MST Brand',
   },
 };
 

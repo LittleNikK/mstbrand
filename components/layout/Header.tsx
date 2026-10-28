@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   ShoppingBag,
@@ -79,9 +80,17 @@ export default function Header() {
 
             {/* Brand Wordmark */}
             <div className="flex-1 lg:flex-none text-center lg:text-left">
-              <Link href="/" className="inline-flex items-center group">
+              <Link href="/" className="inline-flex items-center gap-2.5 group">
+                <Image
+                  src="/logo.png"
+                  alt="MST Brand Logo"
+                  width={32}
+                  height={32}
+                  className="w-7 h-7 sm:w-8 sm:h-8 object-contain transition-transform duration-300 group-hover:scale-105"
+                  priority
+                />
                 <span className="font-serif-editorial text-xl sm:text-2xl font-medium tracking-tight text-[#1A1816] group-hover:text-[#FF2D2D] transition">
-                  MST STORE
+                  MST Brand
                 </span>
               </Link>
             </div>
@@ -332,9 +341,22 @@ export default function Header() {
           <div className="fixed inset-y-0 left-0 w-3/4 max-w-sm bg-[#FAF7F2] border-r border-[#E8E2D8] p-6 shadow-xl flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-[#E8E2D8]">
-                <span className="font-serif-editorial text-xl font-medium tracking-tight text-[#1A1816]">
-                  MST STORE
-                </span>
+                <Link
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center gap-2 group"
+                >
+                  <Image
+                    src="/logo.png"
+                    alt="MST Brand Logo"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 object-contain"
+                  />
+                  <span className="font-serif-editorial text-xl font-medium tracking-tight text-[#1A1816] group-hover:text-[#FF2D2D] transition">
+                    MST Brand
+                  </span>
+                </Link>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2 -mr-2 text-stone-500 hover:text-stone-900"
