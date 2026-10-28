@@ -39,10 +39,11 @@ export default function Header() {
   const navLinks = [
     { name: 'Shop All', href: '/shop' },
     { name: 'Apparel', href: '/shop?category=apparel' },
-    { name: 'Headwear', href: '/shop?category=headwear' },
+    { name: 'Bags & Totes', href: '/shop?category=bags' },
     { name: 'Drinkware', href: '/shop?category=drinkware' },
-    { name: 'Tech Goodies', href: '/shop?category=tech-accessories' },
-    { name: 'Collections', href: '/shop#collections' },
+    { name: 'Stationery', href: '/shop?category=stationery' },
+    { name: 'Pins & Badges', href: '/shop?category=goodies' },
+    { name: 'Hampers & Mystery', href: '/shop?category=bundles' },
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -253,46 +254,68 @@ export default function Header() {
               <span>Trending:</span>
               <button
                 onClick={() => {
-                  setSearchQuery('Genesis Hoodie');
-                  router.push('/shop?q=Genesis+Hoodie');
+                  setSearchQuery('Hoodie');
+                  router.push('/shop?q=Hoodie');
                   setSearchOpen(false);
                 }}
                 className="hover:text-[#FF2D2D] underline"
               >
-                Genesis Hoodie
+                Hoodie
               </button>
               <span>•</span>
               <button
                 onClick={() => {
-                  setSearchQuery('50K TPS');
-                  router.push('/shop?q=50K+TPS');
+                  setSearchQuery('Tote Bag');
+                  router.push('/shop?q=Tote');
                   setSearchOpen(false);
                 }}
                 className="hover:text-[#FF2D2D] underline"
               >
-                50K TPS Tee
+                Tote Bag
               </button>
               <span>•</span>
               <button
                 onClick={() => {
-                  setSearchQuery('Tumbler');
-                  router.push('/shop?q=Tumbler');
+                  setSearchQuery('Bottle');
+                  router.push('/shop?q=Bottle');
                   setSearchOpen(false);
                 }}
                 className="hover:text-[#FF2D2D] underline"
               >
-                Tumbler
+                Bottle
               </button>
               <span>•</span>
               <button
                 onClick={() => {
-                  setSearchQuery('Desk Mat');
-                  router.push('/shop?category=tech-accessories');
+                  setSearchQuery('Diary');
+                  router.push('/shop?q=Diary');
                   setSearchOpen(false);
                 }}
                 className="hover:text-[#FF2D2D] underline"
               >
-                Desk Mat
+                Diary
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => {
+                  setSearchQuery('Pins');
+                  router.push('/shop?q=Pins');
+                  setSearchOpen(false);
+                }}
+                className="hover:text-[#FF2D2D] underline"
+              >
+                Pins
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => {
+                  setSearchQuery('Mystery Box');
+                  router.push('/shop?q=Mystery');
+                  setSearchOpen(false);
+                }}
+                className="hover:text-[#FF2D2D] underline"
+              >
+                Mystery Box
               </button>
             </div>
           </div>

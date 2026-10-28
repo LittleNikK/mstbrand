@@ -37,18 +37,40 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     inStockOnly,
     page,
     collection,
-    limit: 16,
+    limit: 24,
   });
 
   const categories = [
-    { label: 'All Merchandise', value: '' },
-    { label: 'Hoodies & Apparel', value: 'apparel' },
+    { label: 'All 19 Official Items', value: '' },
+    { label: 'Hoodies, Shirts & Tees', value: 'apparel' },
     { label: 'Caps & Headwear', value: 'headwear' },
-    { label: 'Drinkware & Tumblers', value: 'drinkware' },
-    { label: 'Tech & Desk Accessories', value: 'tech-accessories' },
-    { label: 'Bags & Backpacks', value: 'bags' },
-    { label: 'Pins & Stickers', value: 'goodies' },
-    { label: 'Bundles & Kits', value: 'bundles' },
+    { label: 'Tote Bags & Backpacks', value: 'bags' },
+    { label: 'Bottles & Cups', value: 'drinkware' },
+    { label: 'Diaries, Pens & Stands', value: 'stationery' },
+    { label: 'Pins, Badges & Stickers', value: 'goodies' },
+    { label: 'Gift Hampers & Mystery Boxes', value: 'bundles' },
+  ];
+
+  const officialItems = [
+    { label: 'Pins', q: 'pins' },
+    { label: 'Magnets Badges', q: 'magnet' },
+    { label: 'Badges', q: 'badges' },
+    { label: 'Tote Bags', q: 'tote' },
+    { label: 'Keychains', q: 'keychain' },
+    { label: 'Pens', q: 'pen' },
+    { label: 'Bottles', q: 'bottle' },
+    { label: 'Diaries', q: 'diary' },
+    { label: 'Cups', q: 'cup' },
+    { label: 'Hoodies', q: 'hoodie' },
+    { label: 'Stickers', q: 'stickers' },
+    { label: 'Shirts', q: 'shirt' },
+    { label: 'T-Shirts', q: 't-shirt' },
+    { label: 'Caps', q: 'cap' },
+    { label: 'Slippers', q: 'slippers' },
+    { label: 'Bags', q: 'backpack' },
+    { label: 'Gift Hampers', q: 'hamper' },
+    { label: 'Mystery Box', q: 'mystery' },
+    { label: 'Phone Stand', q: 'phone stand' },
   ];
 
   const qualityGrades = ['Genesis Drop', 'Heavyweight Spec', 'Precision Hardware', 'Workspace Gear', 'Community Collectibles'];
@@ -82,7 +104,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     <div className="bg-[#FAF7F2] min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Breadcrumb & Title */}
-        <div className="border-b border-[#E8E2D8] pb-8 mb-8">
+        <div className="border-b border-[#E8E2D8] pb-6 mb-8">
           <div className="flex items-center gap-2 text-xs text-[#7A7268] uppercase tracking-wider mb-2">
             <Link href="/" className="hover:text-[#1A1816]">Home</Link>
             <span>/</span>
@@ -135,6 +157,39 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                   Price: High to Low
                 </Link>
               </div>
+            </div>
+          </div>
+
+          {/* Quick Filter Bar for All 19 Items */}
+          <div className="mt-6 pt-5 border-t border-[#E8E2D8]">
+            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[#1A1816] uppercase tracking-wider">
+              <span>Quick Select Item (19 Official):</span>
+              {q && (
+                <Link
+                  href={buildQuery({ q: undefined, page: undefined })}
+                  className="text-xs text-[#FF2D2D] hover:underline font-normal capitalize"
+                >
+                  (clear item filter)
+                </Link>
+              )}
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              {officialItems.map(item => {
+                const isActive = q?.toLowerCase() === item.q.toLowerCase();
+                return (
+                  <Link
+                    key={item.label}
+                    href={buildQuery({ q: isActive ? undefined : item.q, page: undefined })}
+                    className={`text-xs px-3 py-1 rounded-sm border transition whitespace-nowrap ${
+                      isActive
+                        ? 'bg-[#FF2D2D] text-white border-[#FF2D2D] font-medium shadow-xs'
+                        : 'bg-white text-[#5C564E] border-[#E8E2D8] hover:border-[#1A1816] hover:text-[#1A1816]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>

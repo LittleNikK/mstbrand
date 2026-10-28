@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
     if (isDemoAdmin) {
       if (!user) {
-        const passwordHash = await verifyPassword(password, user?.passwordHash || '') ? user.passwordHash : await import('@/lib/auth/password').then(m => m.hashPassword('Admin@123456'));
+        const passwordHash = await import('@/lib/auth/password').then(m => m.hashPassword('Admin@123456'));
         const insertRes = await db.collection('users').insertOne({
           name: 'Aditi Sharma (Merch Lead)',
           email: normalizedEmail,

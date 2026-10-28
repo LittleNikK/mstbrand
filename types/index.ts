@@ -16,6 +16,7 @@ export type ProductCategory =
   | 'goodies'
   | 'bags'
   | 'bundles'
+  | 'stationery'
   | 'collectibles'
   // Legacy categories for backwards compatibility with existing records
   | 'vintage-tees' 

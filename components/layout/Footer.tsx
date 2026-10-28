@@ -55,12 +55,13 @@ export default function Footer() {
               Categories
             </h4>
             <ul className="space-y-2 text-xs text-stone-400">
-              <li><Link href="/shop?category=apparel" className="hover:text-[#FAF7F2] transition">Hoodies & Apparel</Link></li>
-              <li><Link href="/shop?category=headwear" className="hover:text-[#FAF7F2] transition">Caps & Headwear</Link></li>
-              <li><Link href="/shop?category=drinkware" className="hover:text-[#FAF7F2] transition">Drinkware & Tumblers</Link></li>
-              <li><Link href="/shop?category=tech-accessories" className="hover:text-[#FAF7F2] transition">Desk Mats & Tech</Link></li>
-              <li><Link href="/shop?category=goodies" className="hover:text-[#FAF7F2] transition">Pins & Stickers</Link></li>
-              <li><Link href="/shop" className="hover:text-[#FAF7F2] transition">All Genesis Drops</Link></li>
+              <li><Link href="/shop?category=apparel" className="hover:text-[#FAF7F2] transition">Hoodies, Shirts & Tees</Link></li>
+              <li><Link href="/shop?category=bags" className="hover:text-[#FAF7F2] transition">Tote Bags & Backpacks</Link></li>
+              <li><Link href="/shop?category=drinkware" className="hover:text-[#FAF7F2] transition">Bottles & Ceramic Cups</Link></li>
+              <li><Link href="/shop?category=stationery" className="hover:text-[#FAF7F2] transition">Diaries, Pens & Stands</Link></li>
+              <li><Link href="/shop?category=goodies" className="hover:text-[#FAF7F2] transition">Pins, Badges & Stickers</Link></li>
+              <li><Link href="/shop?category=bundles" className="hover:text-[#FAF7F2] transition">Gift Hampers & Mystery Boxes</Link></li>
+              <li><Link href="/shop" className="hover:text-[#FAF7F2] transition">All 19 Official Products</Link></li>
             </ul>
           </div>
 
