@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { CheckCircle2, Truck, Clock, ArrowRight, MapPin } from 'lucide-react';
 import { getOrderByNumber } from '@/lib/services/order.service';
 
+export const dynamic = 'force-dynamic';
+
 interface OrderPageProps {
   params: Promise<{ id: string }>;
 }

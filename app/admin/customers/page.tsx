@@ -1,6 +1,8 @@
 import React from 'react';
 import { getDb } from '@/lib/db/mongodb';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminCustomersPage() {
   const db = await getDb();
 

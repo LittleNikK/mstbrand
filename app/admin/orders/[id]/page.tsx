@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { getOrderByNumber } from '@/lib/services/order.service';
 import OrderDetailClient from '@/components/admin/OrderDetailClient';
 
+export const dynamic = 'force-dynamic';
+
 interface AdminOrderDetailPageProps {
   params: Promise<{ id: string }>;
 }

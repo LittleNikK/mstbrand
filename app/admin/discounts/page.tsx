@@ -3,6 +3,8 @@ import { getDb } from '@/lib/db/mongodb';
 import DiscountsClient from '@/components/admin/DiscountsClient';
 import { DiscountCode } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDiscountsPage() {
   const db = await getDb();
   const docs = await db.collection('discount_codes').find({}).sort({ createdAt: -1 }).toArray();

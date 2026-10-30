@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { getAllOrders } from '@/lib/services/order.service';
 
+export const dynamic = 'force-dynamic';
+
 interface AdminOrdersPageProps {
   searchParams: Promise<{
     page?: string;

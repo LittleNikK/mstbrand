@@ -8,6 +8,8 @@ import { ObjectId } from 'mongodb';
 import { Package, MapPin, User, ArrowRight, ShieldCheck } from 'lucide-react';
 import { Address } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AccountPage() {
   const session = await getServerSession();
   if (!session) {
