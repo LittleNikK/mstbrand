@@ -190,12 +190,12 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       },
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1617059063772-34532796cdb5?auto=format&fit=crop&w=1000&q=80',
+          url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80',
           alt: 'MST Precision Enamel Lapel Pin',
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&w=1000&q=80',
+          url: 'https://images.unsplash.com/photo-1617059063772-34532796cdb5?auto=format&fit=crop&w=1000&q=80',
           alt: 'MST Pin Backing and Packaging Detail',
           isPrimary: false,
         },
@@ -237,7 +237,7 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80',
+          url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1000&q=80',
           alt: 'MST Magnetic Badges Pack Detail',
           isPrimary: false,
         },
@@ -279,7 +279,7 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1617059063772-34532796cdb5?auto=format&fit=crop&w=1000&q=80',
+          url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80',
           alt: 'MST Badges Close-up Detail',
           isPrimary: false,
         },
@@ -317,12 +317,12 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       },
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80',
+          url: '/tote-bag/MST Blockchain Tote Bag Mockup.png',
           alt: 'MST Heavy-Duty Canvas Tote Bag Front View',
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1597484662317-9bd7bdda2907?auto=format&fit=crop&w=1000&q=80',
+          url: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80',
           alt: 'MST Canvas Tote Bag Styling Detail',
           isPrimary: false,
         },
@@ -575,13 +575,13 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       },
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1000&q=80',
+          url: '/hoddie/Hoodie 5.jpg',
           alt: 'MST Genesis Heavyweight Builder Hoodie Front View',
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=1000&q=80',
-          alt: 'MST Genesis Hoodie Fabric & Embroidery Detail',
+          url: '/hoddie/Hoodie 6.jpg',
+          alt: 'MST Genesis Hoodie Back Detail',
           isPrimary: false,
         },
       ],
@@ -617,13 +617,23 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       },
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&w=1000&q=80',
-          alt: 'MST Holographic Waterproof Stickers Pack',
+          url: '/stickers/MST Buddy.png',
+          alt: 'MST Buddy Die-Cut Sticker',
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80',
-          alt: 'MST Laptop Stickers Placement Detail',
+          url: '/stickers/Buildon MST.png',
+          alt: 'Buildon MST Sticker',
+          isPrimary: false,
+        },
+        {
+          url: '/stickers/Academy Sticker.png',
+          alt: 'MST Academy Sticker',
+          isPrimary: false,
+        },
+        {
+          url: '/stickers/Chainpay Sticker.png',
+          alt: 'Chainpay Sticker',
           isPrimary: false,
         },
       ],
@@ -709,13 +719,18 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       },
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80',
+          url: '/t-shirts/Tshirt 3.jpg',
           alt: 'MST 50K TPS High-Throughput T-Shirt Front View',
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=80',
-          alt: 'MST Graphic T-Shirt Print Detail',
+          url: '/t-shirts/Tshirt Mokeup Black.jpg',
+          alt: 'MST 50K TPS T-Shirt Black Edition',
+          isPrimary: false,
+        },
+        {
+          url: '/t-shirts/Tshirt Mokeup Red.jpg',
+          alt: 'MST 50K TPS T-Shirt Red Edition',
           isPrimary: false,
         },
       ],
@@ -839,13 +854,18 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       },
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=80',
-          alt: 'MST Weatherproof Tech Commuter Backpack Bag Front View',
+          url: '/suitecase/Suitcase.png',
+          alt: 'MST Ecosystem Luggage & Suitcase Front View',
           isPrimary: true,
         },
         {
-          url: 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=1000&q=80',
-          alt: 'MST Backpack Compartments Detail',
+          url: '/suitecase/Suitcase all Dairaction  .png',
+          alt: 'MST Ecosystem Suitcase Multi-Angle View',
+          isPrimary: false,
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=80',
+          alt: 'MST Weatherproof Tech Commuter Backpack Bag Front View',
           isPrimary: false,
         },
       ],
