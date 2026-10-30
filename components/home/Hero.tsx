@@ -49,6 +49,7 @@ export default function Hero() {
                   alt="MST Blockchain Developer Heavyweight T-Shirt - Front Graphic"
                   fill
                   priority
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
                   className="object-contain object-center p-3.5 sm:p-5 drop-shadow-sm"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -67,6 +68,7 @@ export default function Hero() {
                   src="/t-shirts/Tshirt 4.png"
                   alt="MST Developer Heavyweight T-Shirt - Back Graphic Typography"
                   fill
+                  sizes="160px"
                   className="object-contain object-center p-2"
                 />
               </div>

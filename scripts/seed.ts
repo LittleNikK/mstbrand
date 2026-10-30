@@ -98,7 +98,7 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       name: 'Apparel & T-Shirts',
       slug: 'apparel-streetwear',
       description: 'Official 240 GSM combed compact cotton developer tees and minimalist streetwear.',
-      imageUrl: '/t-shirts/Tshirt 4.jpg',
+      imageUrl: '/t-shirts/Tshirt Mokeup Black.png',
       featured: true,
       createdAt: now,
       updatedAt: now,
