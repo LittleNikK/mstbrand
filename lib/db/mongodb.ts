@@ -16,7 +16,27 @@ function getMongoUri(): string {
 }
 
 function getDatabaseName(): string {
-  return process.env.MONGODB_DB_NAME || env.MONGODB_DB_NAME || 'second_story';
+  // If explicitly specified in env
+  if (process.env.MONGODB_DB_NAME) {
+    return process.env.MONGODB_DB_NAME;
+  }
+  if (env.MONGODB_DB_NAME && env.MONGODB_DB_NAME !== 'second_story') {
+    return env.MONGODB_DB_NAME;
+  }
+
+  // If MONGODB_URI contains a database name in the path (e.g. mongodb+srv://.../mst_store?...)
+  const uri = getMongoUri();
+  try {
+    const parsed = new URL(uri.replace(/^mongodb(\+srv)?:\/\//, 'http://'));
+    const pathDb = parsed.pathname.replace(/^\//, '').split('?')[0];
+    if (pathDb && pathDb.trim()) {
+      return pathDb.trim();
+    }
+  } catch {
+    // Ignore URL parse errors
+  }
+
+  return 'mst_store';
 }
 
 export async function getMongoClient(): Promise<MongoClient> {

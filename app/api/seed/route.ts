@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getDb } from '@/lib/db/mongodb';
 import { seedDatabase } from '@/scripts/seed';
 import { env } from '@/lib/config/env';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
@@ -32,6 +35,15 @@ export async function GET(request: Request) {
 
     console.log(`API seed triggered for database: ${db.databaseName}`);
     const result = await seedDatabase(undefined, undefined, db);
+
+    // Invalidate all Next.js static / server-side page caches immediately
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/admin/products');
+    } catch (revalidateErr) {
+      console.warn('Cache revalidation warning:', revalidateErr);
+    }
 
     return NextResponse.json({
       ...result,

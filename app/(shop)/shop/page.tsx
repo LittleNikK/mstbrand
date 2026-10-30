@@ -5,6 +5,8 @@ import ProductCard from '@/components/products/ProductCard';
 import ShopFiltersDropdown from '@/components/products/ShopFiltersDropdown';
 import { SlidersHorizontal, RotateCcw, Search } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 interface ShopPageProps {
   searchParams: Promise<{
     category?: string;

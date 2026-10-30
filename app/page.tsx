@@ -9,7 +9,7 @@ import EditorialStory from '@/components/home/EditorialStory';
 import DatabaseEmptyNotice from '@/components/home/DatabaseEmptyNotice';
 import { Collection, Product } from '@/types';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   let featuredProducts: Product[] = [];

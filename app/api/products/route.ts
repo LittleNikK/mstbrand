@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getProducts } from '@/lib/services/product.service';
 import { productQuerySchema } from '@/lib/validations/product';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

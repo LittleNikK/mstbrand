@@ -4,6 +4,8 @@ import { getProducts } from '@/lib/services/product.service';
 import { Plus } from 'lucide-react';
 import AdminProductsClientTable from '@/components/admin/AdminProductsClientTable';
 
+export const dynamic = 'force-dynamic';
+
 interface AdminProductsPageProps {
   searchParams: Promise<{
     page?: string;
