@@ -44,7 +44,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   });
 
   const categories = [
-    { label: 'All 19 Official Items', value: '' },
+    { label: 'All Official Merchandise', value: '' },
     { label: 'Hoodies, Shirts & Tees', value: 'apparel' },
     { label: 'Caps & Headwear', value: 'headwear' },
     { label: 'Tote Bags & Backpacks', value: 'bags' },
@@ -55,25 +55,18 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   ];
 
   const officialItems = [
-    { label: 'Pins', q: 'pins' },
-    { label: 'Magnets Badges', q: 'magnet' },
-    { label: 'Badges', q: 'badges' },
-    { label: 'Tote Bags', q: 'tote' },
-    { label: 'Keychains', q: 'keychain' },
-    { label: 'Pens', q: 'pen' },
-    { label: 'Bottles', q: 'bottle' },
-    { label: 'Diaries', q: 'diary' },
-    { label: 'Cups', q: 'cup' },
     { label: 'Hoodies', q: 'hoodie' },
-    { label: 'Stickers', q: 'stickers' },
-    { label: 'Shirts', q: 'shirt' },
     { label: 'T-Shirts', q: 't-shirt' },
-    { label: 'Caps', q: 'cap' },
-    { label: 'Slippers', q: 'slippers' },
-    { label: 'Bags', q: 'backpack' },
-    { label: 'Gift Hampers', q: 'hamper' },
-    { label: 'Mystery Box', q: 'mystery' },
-    { label: 'Phone Stand', q: 'phone stand' },
+    { label: 'Suitcase & Luggage', q: 'suitcase' },
+    { label: 'Tote Bags', q: 'tote' },
+    { label: 'Stickers Pack', q: 'stickers' },
+    { label: 'MST Buddy', q: 'buddy' },
+    { label: 'BuildOn MST', q: 'buildon' },
+    { label: 'ChainPay', q: 'chainpay' },
+    { label: 'BridgeKey Wallet', q: 'bridgekey' },
+    { label: 'MST Academy', q: 'academy' },
+    { label: 'Rapidex DEX', q: 'rapidex' },
+    { label: 'Drinkware', q: 'test no 9' },
   ];
 
   const qualityGrades = ['Genesis Drop', 'Heavyweight Spec', 'Precision Hardware', 'Workspace Gear', 'Community Collectibles'];

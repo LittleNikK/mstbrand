@@ -20,7 +20,7 @@ function getDatabaseName(): string {
   if (process.env.MONGODB_DB_NAME) {
     return process.env.MONGODB_DB_NAME;
   }
-  if (env.MONGODB_DB_NAME && env.MONGODB_DB_NAME !== 'second_story') {
+  if (env.MONGODB_DB_NAME && env.MONGODB_DB_NAME !== 'mstbrand') {
     return env.MONGODB_DB_NAME;
   }
 
