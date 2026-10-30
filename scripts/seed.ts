@@ -95,10 +95,10 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
   await db.collection('collections').insertMany([
     {
       _id: colApparelId,
-      name: 'Apparel & Streetwear',
+      name: 'Apparel & T-Shirts',
       slug: 'apparel-streetwear',
-      description: 'Official 400 GSM heavyweight hoodies and 240 GSM combed compact cotton developer tees.',
-      imageUrl: '/hoddie/Hoodie 5.jpg',
+      description: 'Official 240 GSM combed compact cotton developer tees and minimalist streetwear.',
+      imageUrl: '/t-shirts/Tshirt 4.jpg',
       featured: true,
       createdAt: now,
       updatedAt: now,
@@ -217,8 +217,8 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
         { name: "Features", value: "Double-needle reinforced seams, custom metal aglets, kangaroo pocket" }
       ],
       images: [
-        { url: "/hoddie/Hoodie 5.jpg", alt: "MST Blockchain Genesis Builder Hoodie - Front View", isPrimary: true },
-        { url: "/hoddie/Hoodie 6.jpg", alt: "MST Blockchain Genesis Builder Hoodie - Detailed Back View", isPrimary: false }
+        { url: "/hoddie/Hoodie 5.png", alt: "MST Blockchain Genesis Builder Hoodie - Front View", isPrimary: true },
+        { url: "/hoddie/Hoodie 6.png", alt: "MST Blockchain Genesis Builder Hoodie - Detailed Back View", isPrimary: false }
       ]
     },
     {
@@ -251,9 +251,9 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
         { name: "Neckline", value: "1x1 lycra ribbed crew collar (anti-sagging)" }
       ],
       images: [
-        { url: "/t-shirts/Tshirt Mokeup Black.jpg", alt: "MST Developer Heavyweight T-Shirt - Stealth Black Front", isPrimary: true },
-        { url: "/t-shirts/Tshirt 3.jpg", alt: "MST Developer T-Shirt - Front Graphic View", isPrimary: false },
-        { url: "/t-shirts/Tshirt 4.jpg", alt: "MST Developer T-Shirt - Back Graphic Typography", isPrimary: false },
+        { url: "/t-shirts/Tshirt Mokeup Black.png", alt: "MST Developer Heavyweight T-Shirt - Stealth Black Front", isPrimary: true },
+        { url: "/t-shirts/Tshirt 3.png", alt: "MST Developer T-Shirt - Front Graphic View", isPrimary: false },
+        { url: "/t-shirts/Tshirt 4.png", alt: "MST Developer T-Shirt - Back Graphic Typography", isPrimary: false },
         { url: "/t-shirts/tshirt side angle.png", alt: "MST Developer T-Shirt - Side Profile Angle", isPrimary: false }
       ]
     },
@@ -287,10 +287,10 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
         { name: "Print", value: "High-density crack-resistant screen print" }
       ],
       images: [
-        { url: "/t-shirts/Tshirt Mokeup Red.jpg", alt: "MST Developer T-Shirt - Signature Red Front View", isPrimary: true },
+        { url: "/t-shirts/Tshirt Mokeup Red.png", alt: "MST Developer T-Shirt - Signature Red Front View", isPrimary: true },
         { url: "/t-shirts/tshirt side angle.png", alt: "MST Developer T-Shirt - Side Angle View", isPrimary: false },
-        { url: "/t-shirts/Tshirt 3.jpg", alt: "MST Developer T-Shirt - Detailed Graphic", isPrimary: false },
-        { url: "/t-shirts/Tshirt 4.jpg", alt: "MST Developer T-Shirt - Back Print Detail", isPrimary: false }
+        { url: "/t-shirts/Tshirt 3.png", alt: "MST Developer T-Shirt - Detailed Graphic", isPrimary: false },
+        { url: "/t-shirts/Tshirt 4.png", alt: "MST Developer T-Shirt - Back Print Detail", isPrimary: false }
       ]
     },
     {

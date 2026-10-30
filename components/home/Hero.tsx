@@ -45,11 +45,11 @@ export default function Hero() {
               {/* Main Editorial Hero Image */}
               <div className="relative aspect-[4/4.9] max-h-[490px] rounded-sm overflow-hidden border border-[#D5CCC0] shadow-xl bg-[#F8F5F0] flex items-center justify-center p-3.5 sm:p-4">
                 <Image
-                  src="/t-shirts/Tshirt 3.jpg"
-                  alt="MST Blockchain Developer Heavyweight T-Shirt"
+                  src="/t-shirts/Tshirt 3.png"
+                  alt="MST Blockchain Developer Heavyweight T-Shirt - Front Graphic"
                   fill
                   priority
-                  className="object-contain object-center p-3.5 sm:p-4"
+                  className="object-contain object-center p-3.5 sm:p-5 drop-shadow-sm"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-3 left-3 right-3 text-white p-2.5 sm:p-3 bg-black/65 backdrop-blur-md rounded-xs border border-white/20">
@@ -64,10 +64,10 @@ export default function Hero() {
               {/* Overlapping Floating Detail */}
               <div className="hidden sm:block absolute -bottom-5 -left-7 w-36 sm:w-40 aspect-square rounded-sm overflow-hidden border-4 border-white shadow-2xl bg-[#F8F5F0] rotate-[-3deg] flex items-center justify-center p-1.5">
                 <Image
-                  src="/t-shirts/Tshirt Mokeup Black.jpg"
-                  alt="MST Developer Heavyweight T-Shirt"
+                  src="/t-shirts/Tshirt 4.png"
+                  alt="MST Developer Heavyweight T-Shirt - Back Graphic Typography"
                   fill
-                  className="object-contain object-center p-1.5"
+                  className="object-contain object-center p-2"
                 />
               </div>
             </div>
