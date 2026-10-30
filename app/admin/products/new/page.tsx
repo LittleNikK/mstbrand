@@ -105,6 +105,10 @@ const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   },
 };
 
+function createVariantId(prefix = 'v'): string {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+}
+
 export default function NewProductPage() {
   const router = useRouter();
   const { success, error } = useToast();
@@ -241,7 +245,7 @@ export default function NewProductPage() {
     const defaultPrice = Number(formData.sellingPrice) || 0;
     const cleanSize = sizeToUse ? sizeToUse.toUpperCase().replace(/[^A-Z0-9]/g, '') : 'VAR';
     const newVariant: VariantFormItem = {
-      id: `v_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      id: createVariantId('v'),
       sku: `${formData.sku || 'MST'}-${cleanSize}-${formData.variants.length + 1}`,
       size: sizeToUse || 'M',
       color: formData.color || '',

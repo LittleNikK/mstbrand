@@ -90,9 +90,7 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
   const colApparelId = new ObjectId();
   const colBagsId = new ObjectId();
   const colDrinkwareId = new ObjectId();
-  const colStationeryId = new ObjectId();
   const colGoodiesId = new ObjectId();
-  const colHampersId = new ObjectId();
 
   await db.collection('collections').insertMany([
     {

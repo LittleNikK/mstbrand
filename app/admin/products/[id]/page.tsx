@@ -18,6 +18,10 @@ interface VariantFormItem {
 
 const COMMON_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
+function createVariantId(prefix = 'var'): string {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+}
+
 export default function EditProductPage() {
   const params = useParams();
   const id = params?.id as string;
@@ -116,7 +120,7 @@ export default function EditProductPage() {
   const handleAddVariant = (defaultSize?: string) => {
     const sizeToUse = defaultSize || '';
     const newVariant: VariantFormItem = {
-      id: `var_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      id: createVariantId('var'),
       sku: `${formData.sku || 'MST'}-${sizeToUse ? sizeToUse.toUpperCase() : 'VAR'}-${formData.variants.length + 1}`,
       name: sizeToUse ? `${formData.name || 'Product'} / ${sizeToUse}` : '',
       size: sizeToUse,

@@ -12,10 +12,9 @@ import {
   ChevronRight,
   X,
   Layers,
-  Check,
   Plus,
 } from 'lucide-react';
-import { Product, ProductVariant } from '@/types';
+import { Product } from '@/types';
 import { useCart } from '@/components/providers/CartProvider';
 import { useToast } from '@/components/providers/ToastProvider';
 

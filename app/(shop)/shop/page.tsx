@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getProducts } from '@/lib/services/product.service';
 import ProductCard from '@/components/products/ProductCard';
 import ShopFiltersDropdown from '@/components/products/ShopFiltersDropdown';
-import { SlidersHorizontal, RotateCcw, Search } from 'lucide-react';
+import { RotateCcw, Search } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
