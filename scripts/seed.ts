@@ -128,7 +128,7 @@ export async function seedDatabase(customUri?: string, customDb?: string, existi
       name: 'Drinkware & Workspace',
       slug: 'drinkware-workspace',
       description: 'Official MST ceramic mugs, coffee cups, and developer desktop drinkware.',
-      imageUrl: '/uploads/vintage-1793268766783-53e76a5b0ad6dbf3.png',
+      imageUrl: '/uploads/MST_Blockchain_Thermos_Showcase.png',
       featured: true,
       createdAt: now,
       updatedAt: now,
