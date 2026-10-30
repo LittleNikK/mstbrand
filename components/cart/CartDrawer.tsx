@@ -53,19 +53,19 @@ export default function CartDrawer() {
         onClick={closeCart}
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
         <div className="w-screen max-w-md bg-[#FAF7F2] border-l border-[#E8E2D8] shadow-2xl flex flex-col">
           {/* Header */}
-          <div className="p-6 border-b border-[#E8E2D8] flex items-center justify-between bg-white">
+          <div className="p-4 sm:p-6 border-b border-[#E8E2D8] flex items-center justify-between bg-white">
             <div className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-[#FF2D2D]" />
-              <h2 className="font-serif-editorial text-xl font-medium tracking-tight text-[#1A1816]">
+              <h2 className="font-serif-editorial text-lg sm:text-xl font-medium tracking-tight text-[#1A1816]">
                 Shopping Bag ({items.length})
               </h2>
             </div>
             <button
               onClick={closeCart}
-              className="p-2 -mr-2 text-stone-500 hover:text-stone-900 transition"
+              className="p-1.5 -mr-1.5 text-stone-500 hover:text-stone-900 transition"
               aria-label="Close bag"
             >
               <X className="w-5 h-5" />
@@ -73,14 +73,14 @@ export default function CartDrawer() {
           </div>
 
           {/* Complimentary Shipping Bar */}
-          <div className="bg-[#F4EFEA] px-6 py-3 border-b border-[#E8E2D8]">
+          <div className="bg-[#F4EFEA] px-4 sm:px-6 py-2.5 sm:py-3 border-b border-[#E8E2D8]">
             <div className="flex items-center justify-between text-xs text-[#5C564E] mb-1.5 font-medium">
-              <span>
+              <span className="truncate pr-2">
                 {amountToFreeShipping === 0
                   ? '🎉 Complimentary Shipping Unlocked'
                   : `Add ₹${amountToFreeShipping.toLocaleString('en-IN')} for Free Shipping`}
               </span>
-              <span className="font-mono">{freeShippingProgress}%</span>
+              <span className="font-mono shrink-0">{freeShippingProgress}%</span>
             </div>
             <div className="w-full bg-[#E8E2D8] h-1.5 rounded-full overflow-hidden">
               <div
@@ -91,7 +91,7 @@ export default function CartDrawer() {
           </div>
 
           {/* Items List */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
             {items.length === 0 ? (
               <div className="text-center py-16 space-y-4">
                 <div className="w-16 h-16 mx-auto rounded-full bg-[#EDE7DD] flex items-center justify-center text-stone-500">
@@ -119,15 +119,15 @@ export default function CartDrawer() {
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-contain object-center p-1 bg-white"
                     />
                   </div>
 
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex items-start justify-between gap-2">
-                        <h4 className="font-serif-editorial text-sm font-medium text-[#1A1816] line-clamp-1">
-                          <Link href={`/product/${item.slug}`} onClick={closeCart} className="hover:text-[#FF2D2D]">
+                        <h4 className="font-sans text-xs sm:text-sm font-semibold text-[#1A1816] line-clamp-1 tracking-tight">
+                          <Link href={`/product/${item.slug}`} onClick={closeCart} className="hover:text-[#FF2D2D] transition-colors">
                             {item.name}
                           </Link>
                         </h4>
@@ -140,11 +140,13 @@ export default function CartDrawer() {
                         </button>
                       </div>
 
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[11px] text-[#7A7268] font-medium tracking-wide">
-                          {item.brand || 'MST Ecosystem'} {item.selectedSize && `• Size ${item.selectedSize}`} {item.selectedColor && `• ${item.selectedColor}`}
-                        </span>
-                      </div>
+                      {(item.selectedSize || item.selectedColor) && (
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-[11px] text-[#7A7268] font-medium tracking-wide">
+                            {item.selectedSize && `Size ${item.selectedSize}`} {item.selectedColor && `• ${item.selectedColor}`}
+                          </span>
+                        </div>
+                      )}
 
                       <div className="flex items-center gap-2 mt-1.5">
                         <span className="editorial-badge text-[10px] py-0.5 px-2 bg-stone-100 text-stone-700">
@@ -159,10 +161,10 @@ export default function CartDrawer() {
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
-                      <span className="text-xs text-[#7A7268] font-mono">
+                      <span className="text-xs text-[#7A7268]">
                         Qty: {item.quantity}
                       </span>
-                      <span className="font-serif-editorial text-sm font-semibold text-[#1A1816]">
+                      <span className="text-sm font-semibold text-[#1A1816]">
                         ₹{item.price.toLocaleString('en-IN')}
                       </span>
                     </div>
@@ -174,7 +176,7 @@ export default function CartDrawer() {
 
           {/* Footer & Checkout */}
           {items.length > 0 && (
-            <div className="p-6 bg-white border-t border-[#E8E2D8] space-y-4">
+            <div className="p-4 sm:p-6 bg-white border-t border-[#E8E2D8] space-y-3.5 sm:space-y-4">
               {/* Promo code input */}
               {discountCode ? (
                 <div className="flex items-center justify-between p-2.5 bg-[#F4EFEB] border border-[#DFD5C9] rounded-sm text-xs">
@@ -212,12 +214,12 @@ export default function CartDrawer() {
               <div className="space-y-1.5 text-xs text-[#5C564E]">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-[#1A1816] font-medium font-mono">₹{subtotal.toLocaleString('en-IN')}</span>
+                  <span className="text-[#1A1816] font-medium">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-[#FF2D2D]">
                     <span>Discount ({discountCode})</span>
-                    <span className="font-mono">-₹{discountAmount.toLocaleString('en-IN')}</span>
+                    <span>-₹{discountAmount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
@@ -226,9 +228,9 @@ export default function CartDrawer() {
                     {shippingFee === 0 ? 'Complimentary' : `₹${shippingFee.toLocaleString('en-IN')}`}
                   </span>
                 </div>
-                <div className="flex justify-between pt-2 border-t border-[#E8E2D8] text-sm font-serif-editorial font-semibold text-[#1A1816]">
+                <div className="flex justify-between pt-2 border-t border-[#E8E2D8] text-sm font-semibold text-[#1A1816]">
                   <span>Total</span>
-                  <span className="font-mono">₹{total.toLocaleString('en-IN')}</span>
+                  <span className="font-bold">₹{total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 

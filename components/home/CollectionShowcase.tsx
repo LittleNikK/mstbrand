@@ -13,7 +13,7 @@ export default function CollectionShowcase({ collections }: CollectionShowcasePr
 
   return (
     <section id="collections" className="py-16 md:py-24 bg-[#FAF7F2] border-b border-[#E8E2D8]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
             <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF2D2D]">

@@ -37,7 +37,7 @@ export default function ConditionStandards() {
 
   return (
     <section id="standards" className="py-16 md:py-24 bg-[#F4EFEA] border-b border-[#E8E2D8]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
           <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF2D2D]">
             The MST Quality Guarantee

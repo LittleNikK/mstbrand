@@ -3,14 +3,31 @@ import { getServerSession } from '@/lib/auth/session';
 import { getDb } from '@/lib/db/mongodb';
 import { ObjectId } from 'mongodb';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const productId = searchParams.get('productId');
     const session = await getServerSession();
+    const db = await getDb();
+
+    // If querying specific product like count & user wishlist status
+    if (productId) {
+      const count = await db.collection('wishlists').countDocuments({ productIds: productId });
+      let isWishlisted = false;
+      if (session) {
+        const doc = await db.collection('wishlists').findOne({
+          userId: session.userId,
+          productIds: productId,
+        });
+        isWishlisted = !!doc;
+      }
+      return NextResponse.json({ count, isWishlisted });
+    }
+
     if (!session) {
       return NextResponse.json({ wishlist: [] });
     }
 
-    const db = await getDb();
     const doc = await db.collection('wishlists').findOne({ userId: session.userId });
     if (!doc || !doc.productIds || doc.productIds.length === 0) {
       return NextResponse.json({ wishlist: [] });
@@ -67,7 +84,8 @@ export async function POST(request: Request) {
       { upsert: true }
     );
 
-    return NextResponse.json({ success: true, message: 'Saved to wishlist' });
+    const count = await db.collection('wishlists').countDocuments({ productIds: productId });
+    return NextResponse.json({ success: true, count, isWishlisted: true, message: 'Saved to wishlist' });
   } catch (error) {
     console.error('Wishlist POST error:', error);
     return NextResponse.json({ error: 'Failed to update wishlist' }, { status: 500 });
@@ -82,7 +100,16 @@ export async function DELETE(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const productId = searchParams.get('productId');
+    let productId = searchParams.get('productId');
+    if (!productId) {
+      try {
+        const body = await request.json();
+        productId = body?.productId;
+      } catch {
+        // body might be empty or invalid json
+      }
+    }
+
     if (!productId) {
       return NextResponse.json({ error: 'Missing product ID' }, { status: 400 });
     }
@@ -96,7 +123,8 @@ export async function DELETE(request: Request) {
       }
     );
 
-    return NextResponse.json({ success: true, message: 'Removed from wishlist' });
+    const count = await db.collection('wishlists').countDocuments({ productIds: productId });
+    return NextResponse.json({ success: true, count, isWishlisted: false, message: 'Removed from wishlist' });
   } catch (error) {
     console.error('Wishlist DELETE error:', error);
     return NextResponse.json({ error: 'Failed to remove from wishlist' }, { status: 500 });

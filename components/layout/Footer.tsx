@@ -33,8 +33,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#1A1816] text-[#FAF7F2] border-t border-stone-800 pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 pb-12 border-b border-stone-800">
           {/* Brand Manifesto */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="inline-flex items-center gap-2.5 group">
@@ -130,11 +130,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 gap-3 sm:gap-4 text-center sm:text-left">
           <p suppressHydrationWarning>© {new Date().getFullYear()} MST Brand. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
             <span>Prices in INR (₹)</span>
-            <span>Razorpay Encrypted Checkout</span>
+            <span>•</span>
+            <span>Razorpay Encrypted</span>
+            <span>•</span>
             <span>Plastic-Free Delivery</span>
           </div>
         </div>

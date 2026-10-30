@@ -3,6 +3,11 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getProductBySlug, getRelatedProducts } from '@/lib/services/product.service';
 import ProductDetailView from '@/components/products/ProductDetailView';
+import { getDb } from '@/lib/db/mongodb';
+import { getServerSession } from '@/lib/auth/session';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -39,7 +44,28 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const related = await getRelatedProducts(product._id, product.category, 4);
+  const [related, db, session] = await Promise.all([
+    getRelatedProducts(product._id, product.category, 4),
+    getDb(),
+    getServerSession(),
+  ]);
 
-  return <ProductDetailView product={product} relatedProducts={related} />;
+  const initialLikeCount = await db.collection('wishlists').countDocuments({ productIds: product._id });
+  let initialIsWishlisted = false;
+  if (session) {
+    const userWishlist = await db.collection('wishlists').findOne({
+      userId: session.userId,
+      productIds: product._id,
+    });
+    initialIsWishlisted = !!userWishlist;
+  }
+
+  return (
+    <ProductDetailView
+      product={product}
+      relatedProducts={related}
+      initialLikeCount={initialLikeCount}
+      initialIsWishlisted={initialIsWishlisted}
+    />
+  );
 }

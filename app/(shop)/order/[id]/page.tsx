@@ -115,21 +115,23 @@ export default async function OrderConfirmationPage({ params }: OrderPageProps) 
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-contain object-center p-1 bg-white"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-serif-editorial text-sm font-medium text-[#1A1816] truncate">
+                    <p className="font-sans text-sm font-semibold text-[#1A1816] truncate tracking-tight">
                       {item.name}
                     </p>
-                    <p className="text-[11px] text-[#7A7268] mt-0.5 font-sans">
-                      {item.brand || 'MST Ecosystem'} {item.selectedSize && `• Size ${item.selectedSize}`} {item.color && `• ${item.color}`}
-                    </p>
+                    {(item.selectedSize || item.color) && (
+                      <p className="text-[11px] text-[#7A7268] mt-0.5 font-sans">
+                        {item.selectedSize && `Size ${item.selectedSize}`} {item.color && `• ${item.color}`}
+                      </p>
+                    )}
                     <p className="text-xs text-[#7A7268] mt-1 font-semibold">
                       Qty: {item.quantity}
                     </p>
                   </div>
-                  <span className="font-serif-editorial text-sm font-semibold text-[#1A1816]">
+                  <span className="text-sm font-semibold text-[#1A1816]">
                     ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -139,12 +141,12 @@ export default async function OrderConfirmationPage({ params }: OrderPageProps) 
             <div className="pt-4 border-t border-[#E8E2D8] space-y-1.5 text-xs text-[#5C564E]">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span className="text-[#1A1816] font-medium font-mono">₹{order.subtotal.toLocaleString('en-IN')}</span>
+                <span className="text-[#1A1816] font-medium">₹{order.subtotal.toLocaleString('en-IN')}</span>
               </div>
               {order.discountAmount > 0 && (
                 <div className="flex justify-between text-[#FF2D2D] font-medium">
                   <span>Discount ({order.discountCode})</span>
-                  <span className="font-mono">-₹{order.discountAmount.toLocaleString('en-IN')}</span>
+                  <span>-₹{order.discountAmount.toLocaleString('en-IN')}</span>
                 </div>
               )}
               <div className="flex justify-between">
@@ -153,9 +155,9 @@ export default async function OrderConfirmationPage({ params }: OrderPageProps) 
                   {order.shippingFee === 0 ? 'Complimentary' : `₹${order.shippingFee.toLocaleString('en-IN')}`}
                 </span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-[#E8E2D8] text-base font-serif-editorial font-semibold text-[#1A1816]">
+              <div className="flex justify-between pt-2 border-t border-[#E8E2D8] text-base font-semibold text-[#1A1816]">
                 <span>Total Paid</span>
-                <span className="font-mono">₹{order.total.toLocaleString('en-IN')}</span>
+                <span className="font-bold">₹{order.total.toLocaleString('en-IN')}</span>
               </div>
             </div>
           </div>

@@ -8,13 +8,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const force = searchParams.get('force') === 'true';
 
-    // Check if database is already populated
+    const db = await getDb();
     let existingCount = 0;
     try {
-      const db = await getDb();
       existingCount = await db.collection('products').countDocuments();
     } catch (connErr) {
-      console.warn('Initial connection probe failed, attempting seed direct connection:', connErr);
+      console.warn('Initial connection probe failed:', connErr);
     }
 
     if (existingCount > 0 && !force) {
@@ -23,6 +22,7 @@ export async function GET(request: Request) {
         alreadySeeded: true,
         message: `Database already contains ${existingCount} products. Pass ?force=true if you want to re-seed.`,
         productsCount: existingCount,
+        databaseName: db.databaseName,
         demoAccounts: {
           admin: 'admin@mststore.com / Admin@123456',
           customer: 'customer@mststore.com / Customer@123456',
@@ -30,11 +30,12 @@ export async function GET(request: Request) {
       });
     }
 
-    console.log('API seed triggered for:', env.MONGODB_URI);
-    const result = await seedDatabase(env.MONGODB_URI, env.MONGODB_DB_NAME);
+    console.log(`API seed triggered for database: ${db.databaseName}`);
+    const result = await seedDatabase(undefined, undefined, db);
 
     return NextResponse.json({
       ...result,
+      databaseName: db.databaseName,
       demoAccounts: {
         admin: 'admin@mststore.com / Admin@123456',
         customer: 'customer@mststore.com / Customer@123456',

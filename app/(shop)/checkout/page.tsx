@@ -191,7 +191,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="bg-[#FAF7F2] min-h-screen py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
         {/* Step Indicator */}
         <div className="max-w-2xl mx-auto mb-10">
           <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-[#7A7268]">
@@ -551,18 +551,18 @@ export default function CheckoutPage() {
                         src={item.image}
                         alt={item.name}
                         fill
-                        className="object-cover"
+                        className="object-contain object-center p-1 bg-white"
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-[#1A1816] truncate font-serif-editorial">
+                      <p className="text-xs font-semibold text-[#1A1816] truncate font-sans tracking-tight">
                         {item.name}
                       </p>
                       <p className="text-[11px] text-[#7A7268] font-mono">
                         {item.selectedSize ? `Size: ${item.selectedSize}` : ''} • Qty: {item.quantity}
                       </p>
                     </div>
-                    <span className="text-xs font-semibold text-[#1A1816] font-mono">
+                    <span className="text-xs font-semibold text-[#1A1816]">
                       ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -573,12 +573,12 @@ export default function CheckoutPage() {
               <div className="space-y-2 text-xs text-[#5C564E] pt-3 border-t border-[#E8E2D8]">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-[#1A1816] font-medium font-mono">₹{subtotal.toLocaleString('en-IN')}</span>
+                  <span className="text-[#1A1816] font-medium">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-[#FF2D2D] font-medium">
                     <span>Discount ({discountCode})</span>
-                    <span className="font-mono">-₹{discountAmount.toLocaleString('en-IN')}</span>
+                    <span>-₹{discountAmount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
@@ -591,9 +591,9 @@ export default function CheckoutPage() {
                   <span>Taxes (GST)</span>
                   <span className="text-[#1A1816] font-medium">Included</span>
                 </div>
-                <div className="flex justify-between pt-3 border-t border-[#E8E2D8] text-base font-serif-editorial font-semibold text-[#1A1816]">
+                <div className="flex justify-between pt-3 border-t border-[#E8E2D8] text-base font-semibold text-[#1A1816]">
                   <span>Total Amount</span>
-                  <span className="font-mono">₹{total.toLocaleString('en-IN')}</span>
+                  <span className="font-bold">₹{total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 

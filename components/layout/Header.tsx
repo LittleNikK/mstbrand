@@ -13,6 +13,7 @@ import {
   X,
   ShieldCheck,
   LogOut,
+  Store,
 } from 'lucide-react';
 import { useCart } from '@/components/providers/CartProvider';
 import { useAuth } from '@/components/providers/AuthProvider';
@@ -40,10 +41,7 @@ export default function Header() {
   const navLinks = [
     { name: 'Shop All', href: '/shop' },
     { name: 'Apparel', href: '/shop?category=apparel' },
-    { name: 'Bags & Totes', href: '/shop?category=bags' },
-    { name: 'Drinkware', href: '/shop?category=drinkware' },
-    { name: 'Stationery', href: '/shop?category=stationery' },
-    { name: 'Pins & Badges', href: '/shop?category=goodies' },
+    { name: 'Goodies & Merch', href: '/shop?category=goodies' },
     { name: 'Hampers & Mystery', href: '/shop?category=bundles' },
   ];
 
@@ -60,36 +58,33 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 w-full transition-all duration-300 border-b ${
           isScrolled
-            ? 'bg-[#FAF7F2]/95 backdrop-blur-md border-[#E8E2D8] py-2 shadow-xs'
-            : 'bg-[#FAF7F2] border-[#E8E2D8] py-2.5'
+            ? 'bg-[#FAF7F2]/95 backdrop-blur-md border-[#E8E2D8] py-2 sm:py-2.5 shadow-xs'
+            : 'bg-[#FAF7F2] border-[#E8E2D8] py-3 sm:py-3.5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
-            {/* Mobile menu button */}
-            <div className="flex items-center lg:hidden">
+        <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
+          <div className="flex items-center justify-between gap-1 sm:gap-4">
+            {/* Left: Mobile menu button + Brand Wordmark */}
+            <div className="flex items-center gap-1 sm:gap-2.5 min-w-0">
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-2 -ml-2 text-[#1A1816] hover:text-[#FF2D2D] transition"
+                className="p-1.5 -ml-1.5 lg:hidden text-[#1A1816] hover:text-[#FF2D2D] transition shrink-0"
                 aria-label="Open navigation menu"
                 suppressHydrationWarning
               >
                 <Menu className="w-5 h-5" />
               </button>
-            </div>
 
-            {/* Brand Wordmark */}
-            <div className="flex-1 lg:flex-none text-center lg:text-left">
-              <Link href="/" className="inline-flex items-center gap-2.5 group">
+              <Link href="/" className="inline-flex items-center gap-2 sm:gap-2.5 group shrink-0">
                 <Image
                   src="/logo.png"
                   alt="MST Brand Logo"
-                  width={32}
-                  height={32}
-                  className="w-7 h-7 sm:w-8 sm:h-8 object-contain transition-transform duration-300 group-hover:scale-105"
+                  width={30}
+                  height={30}
+                  className="w-6 h-6 sm:w-8 sm:h-8 object-contain transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
-                <span className="font-serif-editorial text-xl sm:text-2xl font-medium tracking-tight text-[#1A1816] group-hover:text-[#FF2D2D] transition">
+                <span className="font-serif-editorial text-lg sm:text-2xl font-medium tracking-tight text-[#1A1816] group-hover:text-[#FF2D2D] transition whitespace-nowrap">
                   MST Brand
                 </span>
               </Link>
@@ -113,55 +108,61 @@ export default function Header() {
               })}
             </nav>
 
-            {/* Right Action Icons */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {/* Search toggle */}
+            {/* Right Action Items: Search Input Box + User + Heart + Store + Cart */}
+            <div className="flex items-center gap-1 sm:gap-3 md:gap-5 shrink-0">
+              {/* Search Box (Exact match to reference image: crisp rectangular outline with Search icon inside on the right) */}
+              <form onSubmit={handleSearchSubmit} className="relative hidden sm:block">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search..."
+                  className="w-36 md:w-52 lg:w-64 h-9.5 sm:h-10 pl-3.5 pr-9 text-xs sm:text-sm text-[#1A1816] placeholder:text-stone-400 bg-white border border-[#1A1816] rounded-none focus:outline-none focus:ring-1 focus:ring-[#1A1816] transition shadow-none"
+                />
+                <button
+                  type="submit"
+                  aria-label="Search"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#1A1816] hover:text-[#FF2D2D] transition cursor-pointer"
+                >
+                  <Search className="w-4 h-4" strokeWidth={1.75} />
+                </button>
+              </form>
+
+              {/* Mobile Search Toggle (for screens < sm) */}
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 text-[#1A1816] hover:text-[#FF2D2D] transition"
+                className="p-1.5 sm:hidden text-[#1A1816] hover:text-[#FF2D2D] transition"
                 aria-label="Search merchandise"
                 suppressHydrationWarning
               >
-                <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Search className="w-4.5 h-4.5" strokeWidth={1.75} />
               </button>
 
-              {/* Wishlist */}
-              <Link
-                href="/wishlist"
-                className="p-2 text-[#1A1816] hover:text-[#FF2D2D] transition"
-                aria-label="Wishlist"
-              >
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
-              </Link>
-
-              {/* Account Dropdown */}
-              <div className="relative">
+              {/* 1. Account (User Icon) */}
+              <div className="relative flex items-center">
                 {user ? (
                   <button
                     onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                    className="p-2 text-[#1A1816] hover:text-[#FF2D2D] transition flex items-center gap-1"
+                    className="p-1 text-[#1A1816] hover:text-[#FF2D2D] transition flex items-center"
                     aria-label="Account menu"
                     suppressHydrationWarning
                   >
-                    <UserIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span className="hidden md:inline text-xs font-medium max-w-[80px] truncate">
-                      {user.name.split(' ')[0]}
-                    </span>
+                    <UserIcon className="w-5 h-5" strokeWidth={1.75} />
                   </button>
                 ) : (
                   <Link
                     href="/login"
-                    className="p-2 text-[#1A1816] hover:text-[#FF2D2D] transition"
+                    className="p-1 text-[#1A1816] hover:text-[#FF2D2D] transition flex items-center"
                     aria-label="Customer login"
                   >
-                    <UserIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <UserIcon className="w-5 h-5" strokeWidth={1.75} />
                   </Link>
                 )}
 
                 {/* Account dropdown menu */}
                 {accountMenuOpen && user && (
                   <div
-                    className="absolute right-0 mt-2 w-52 bg-[#FAF7F2] border border-[#E8E2D8] shadow-lg rounded-sm py-2 z-50 text-xs"
+                    className="absolute right-0 top-full mt-2 w-52 bg-[#FAF7F2] border border-[#E8E2D8] shadow-lg rounded-sm py-2 z-50 text-xs"
                     onMouseLeave={() => setAccountMenuOpen(false)}
                   >
                     <div className="px-4 py-2 border-b border-[#E8E2D8]">
@@ -207,19 +208,36 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Shopping Bag Trigger */}
+              {/* 2. Wishlist (Heart Icon) */}
+              <Link
+                href="/wishlist"
+                className="p-1 text-[#1A1816] hover:text-[#FF2D2D] transition flex items-center"
+                aria-label="Wishlist"
+              >
+                <Heart className="w-5 h-5" strokeWidth={1.75} />
+              </Link>
+
+              {/* 3. Official Storefront (Store Icon) */}
+              <Link
+                href="/shop"
+                className="p-1 text-[#1A1816] hover:text-[#FF2D2D] transition flex items-center"
+                aria-label="Official Store Catalog"
+                title="Browse Store"
+              >
+                <Store className="w-5 h-5" strokeWidth={1.75} />
+              </Link>
+
+              {/* 4. Shopping Bag Trigger with solid black circular count badge */}
               <button
                 onClick={openCart}
-                className="p-2 text-[#1A1816] hover:text-[#FF2D2D] transition relative"
+                className="p-1 text-[#1A1816] hover:text-[#FF2D2D] transition relative flex items-center"
                 aria-label={`Shopping bag with ${totalItemCount} items`}
                 suppressHydrationWarning
               >
-                <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
-                {totalItemCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-[#FF2D2D] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                    {totalItemCount}
-                  </span>
-                )}
+                <ShoppingBag className="w-5 h-5" strokeWidth={1.75} />
+                <span className="absolute -top-1.5 -right-2 min-w-[17px] h-[17px] px-1 bg-[#1A1816] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+                  {totalItemCount}
+                </span>
               </button>
             </div>
           </div>
@@ -228,8 +246,8 @@ export default function Header() {
 
       {/* Search Overlay Modal */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm flex items-start justify-center pt-24 px-4">
-          <div className="bg-[#FAF7F2] border border-[#E8E2D8] w-full max-w-2xl rounded-sm p-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm flex items-start justify-center pt-14 sm:pt-24 px-3 sm:px-4">
+          <div className="bg-[#FAF7F2] border border-[#E8E2D8] w-full max-w-2xl rounded-sm p-4 sm:p-6 shadow-2xl relative">
             <button
               onClick={() => setSearchOpen(false)}
               className="absolute top-4 right-4 text-stone-400 hover:text-stone-800"
@@ -238,7 +256,7 @@ export default function Header() {
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="font-serif-editorial text-lg text-[#1A1816] mb-4">
+            <h3 className="font-serif-editorial text-base sm:text-lg text-[#1A1816] mb-3 sm:mb-4">
               Search MST Store
             </h3>
             <form onSubmit={handleSearchSubmit} className="relative">
@@ -248,18 +266,18 @@ export default function Header() {
                 placeholder="Search hoodies, tees, tumblers, desk mats, caps..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-[#E8E2D8] px-4 py-3 text-sm text-[#1A1816] placeholder-stone-400 focus:outline-none focus:border-[#FF2D2D] rounded-sm pr-12"
+                className="w-full bg-white border border-[#E8E2D8] px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-[#1A1816] placeholder-stone-400 focus:outline-none focus:border-[#FF2D2D] rounded-sm pr-11"
                 suppressHydrationWarning
               />
               <button
                 type="submit"
-                className="absolute right-3 top-3 text-[#FF2D2D] p-1 hover:text-stone-900 transition"
+                className="absolute right-3 top-2.5 sm:top-3 text-[#FF2D2D] p-1 hover:text-stone-900 transition"
                 suppressHydrationWarning
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
               </button>
             </form>
-            <div className="mt-4 flex items-center gap-2 flex-wrap text-xs text-[#7A7268]">
+            <div className="mt-3 sm:mt-4 flex items-center gap-2 flex-wrap text-xs text-[#7A7268]">
               <span>Trending:</span>
               <button
                 onClick={() => {
@@ -338,9 +356,9 @@ export default function Header() {
             className="fixed inset-0 bg-stone-900/50 backdrop-blur-xs"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed inset-y-0 left-0 w-3/4 max-w-sm bg-[#FAF7F2] border-r border-[#E8E2D8] p-6 shadow-xl flex flex-col justify-between">
+          <div className="fixed inset-y-0 left-0 w-4/5 max-w-sm bg-[#FAF7F2] border-r border-[#E8E2D8] p-5 sm:p-6 shadow-xl flex flex-col justify-between overflow-y-auto">
             <div>
-              <div className="flex items-center justify-between pb-6 border-b border-[#E8E2D8]">
+              <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-[#E8E2D8]">
                 <Link
                   href="/"
                   onClick={() => setMobileMenuOpen(false)}
@@ -353,26 +371,50 @@ export default function Header() {
                     height={24}
                     className="w-6 h-6 object-contain"
                   />
-                  <span className="font-serif-editorial text-xl font-medium tracking-tight text-[#1A1816] group-hover:text-[#FF2D2D] transition">
+                  <span className="font-serif-editorial text-lg sm:text-xl font-medium tracking-tight text-[#1A1816] group-hover:text-[#FF2D2D] transition">
                     MST Brand
                   </span>
                 </Link>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 -mr-2 text-stone-500 hover:text-stone-900"
+                  className="p-1.5 -mr-1.5 text-stone-500 hover:text-stone-900"
                   suppressHydrationWarning
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="py-6 space-y-4">
+              {/* Mobile Drawer Search Box */}
+              <form
+                onSubmit={e => {
+                  handleSearchSubmit(e);
+                  setMobileMenuOpen(false);
+                }}
+                className="mt-4 relative"
+              >
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search merchandise..."
+                  className="w-full bg-white border border-[#E8E2D8] px-3 py-2 text-xs text-[#1A1816] placeholder:text-stone-400 rounded-sm pr-9 focus:outline-none focus:border-[#FF2D2D]"
+                />
+                <button
+                  type="submit"
+                  aria-label="Search"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500 hover:text-[#FF2D2D]"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+              </form>
+
+              <div className="py-5 space-y-3.5">
                 {navLinks.map(link => (
                   <Link
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block text-sm uppercase tracking-widest font-medium text-[#1A1816] hover:text-[#FF2D2D] transition"
+                    className="block text-xs uppercase tracking-widest font-medium text-[#1A1816] hover:text-[#FF2D2D] transition"
                   >
                     {link.name}
                   </Link>

@@ -102,7 +102,7 @@ export default function WishlistPage() {
 
   return (
     <div className="bg-[#FAF7F2] min-h-screen py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
         <div className="border-b border-[#E8E2D8] pb-6 mb-8 flex items-baseline justify-between">
           <div>
             <h1 className="font-serif-editorial text-3xl sm:text-4xl text-[#1A1816]">
@@ -151,19 +151,16 @@ export default function WishlistPage() {
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-cover img-zoom-hover"
+                    className="object-contain object-center p-3 transition-transform duration-300 group-hover:scale-105"
                   />
                 </Link>
 
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-2">
                   <div>
-                    <span className="text-[10px] text-[#7A7268] uppercase tracking-widest font-sans">
-                      {item.brand || 'MST Ecosystem'}
-                    </span>
-                    <h3 className="font-serif-editorial text-sm font-medium text-[#1A1816] line-clamp-1 mt-0.5">
-                      <Link href={`/product/${item.slug}`} className="hover:text-[#FF2D2D] transition">{item.name}</Link>
+                    <h3 className="font-sans text-xs sm:text-sm font-semibold text-[#1A1816] line-clamp-1 tracking-tight">
+                      <Link href={`/product/${item.slug}`} className="hover:text-[#FF2D2D] transition-colors">{item.name}</Link>
                     </h3>
-                    <p className="font-serif-editorial text-sm font-semibold text-[#1A1816] mt-1">
+                    <p className="text-sm font-semibold text-[#1A1816] mt-1">
                       ₹{item.sellingPrice.toLocaleString('en-IN')}
                     </p>
                   </div>

@@ -23,9 +23,23 @@ export interface ProductQueryFilters {
 
 function mapProduct(doc: Record<string, unknown>): Product {
   const { _id, ...rest } = doc;
+  const sellingPrice = Number(rest.sellingPrice) || 0;
+  const costPrice = typeof rest.costPrice === 'number' ? rest.costPrice : (rest.costPrice ? Number(rest.costPrice) : undefined);
+  let referencePrice = typeof rest.referencePrice === 'number' ? rest.referencePrice : (rest.referencePrice ? Number(rest.referencePrice) : undefined);
+
+  // If referencePrice is missing or less than/equal to sellingPrice, but costPrice was entered higher than sellingPrice,
+  // the admin intended costPrice as the original MRP / reference price
+  if ((!referencePrice || referencePrice <= sellingPrice) && costPrice && costPrice > sellingPrice) {
+    referencePrice = costPrice;
+  }
+
   return {
     _id: _id instanceof ObjectId ? _id.toString() : String(_id),
+    imageFit: (rest.imageFit as 'contain' | 'cover') || 'contain',
     ...rest,
+    sellingPrice,
+    costPrice,
+    referencePrice,
   } as Product;
 }
 

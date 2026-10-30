@@ -47,6 +47,7 @@ export interface ProductImage {
   alt: string;
   isPrimary: boolean;
   publicId?: string;
+  fit?: 'contain' | 'cover';
 }
 
 export interface ProductVariant {
@@ -87,6 +88,7 @@ export interface Product {
   isFeatured: boolean;
   isLimitedEdition?: boolean;
   editionNumber?: string;
+  imageFit?: 'contain' | 'cover';
   images: ProductImage[];
   collectionIds: string[];
   tags?: string[];

@@ -13,7 +13,7 @@ export default function AnnouncementBar() {
       aria-label="Store Announcement"
       className="bg-[#1A1816] text-[#FAF7F2] text-[11px] font-medium tracking-widest uppercase py-2 px-4 border-b border-stone-800"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12 flex items-center justify-between">
         <div className="flex-1 text-center flex items-center justify-center">
           <span>
             Genesis Drop Live: Official MST Blockchain Merchandise — Complimentary Shipping on orders over ₹2,999

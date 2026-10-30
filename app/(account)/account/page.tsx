@@ -24,7 +24,7 @@ export default async function AccountPage() {
 
   return (
     <div className="bg-[#FAF7F2] min-h-screen py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12 space-y-8">
         {/* Header */}
         <div className="border-b border-[#E8E2D8] pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
@@ -117,14 +117,14 @@ export default async function AccountPage() {
                         {order.items.map((item, idx) => (
                           <div key={idx} className="flex justify-between text-xs text-[#5C564E]">
                             <span className="truncate max-w-xs">{item.name} × {item.quantity}</span>
-                            <span className="font-mono text-[#1A1816] font-medium">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                            <span className="text-[#1A1816] font-medium">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                           </div>
                         ))}
                       </div>
 
                       <div className="flex items-center justify-between pt-2 border-t border-[#E8E2D8] text-xs">
                         <span className="text-[#5C564E]">
-                          Total: <strong className="text-[#1A1816] font-mono">₹{order.total.toLocaleString('en-IN')}</strong>
+                          Total: <strong className="text-[#1A1816] font-bold">₹{order.total.toLocaleString('en-IN')}</strong>
                         </span>
                         <Link
                           href={`/order/${order.orderNumber}`}

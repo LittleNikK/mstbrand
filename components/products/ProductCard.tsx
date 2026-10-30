@@ -19,6 +19,13 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false);
 
   const isSoldOut = product.stock <= 0;
+  const rawReference = (product.referencePrice && product.referencePrice > product.sellingPrice)
+    ? product.referencePrice
+    : (product.costPrice && product.costPrice > product.sellingPrice ? product.costPrice : null);
+  const discountPercent =
+    rawReference && rawReference > product.sellingPrice
+      ? Math.round(((rawReference - product.sellingPrice) / rawReference) * 100)
+      : 0;
   const primaryImage = product.images?.[0]?.url || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80';
   const secondaryImage = product.images?.[1]?.url || primaryImage;
 
@@ -46,48 +53,37 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
-  const getBadgeStyle = (category: string) => {
-    switch (category) {
-      case 'apparel':
-        return 'vintage-pill-new';
-      case 'headwear':
-        return 'vintage-pill-excellent';
-      case 'drinkware':
-        return 'vintage-pill-verygood';
-      case 'tech-accessories':
-        return 'vintage-pill-good';
-      default:
-        return 'vintage-pill-fair';
-    }
-  };
-
   return (
     <div className="group relative flex flex-col bg-white border border-[#E8E2D8] rounded-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:border-[#D5CCC0]">
-      {/* Image Container */}
-      <Link href={`/product/${product.slug}`} className="block relative aspect-3/4 overflow-hidden bg-[#F5F0E8]">
-        <Image
-          src={primaryImage}
-          alt={product.name}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover img-zoom-hover transition-opacity duration-500 group-hover:opacity-0"
-        />
-        <Image
-          src={secondaryImage}
-          alt={`${product.name} alternate view`}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover img-zoom-hover transition-opacity duration-500 opacity-0 group-hover:opacity-100 absolute inset-0"
-        />
+      {/* Image Container: Perfectly centered, never stretched */}
+      <Link href={`/product/${product.slug}`} className="block relative aspect-3/4 overflow-hidden bg-[#F8F5F0] flex items-center justify-center">
+        <div className="absolute inset-0 p-3 sm:p-4 flex items-center justify-center">
+          <Image
+            src={primaryImage}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className={`${product.imageFit === 'cover' ? 'object-cover' : 'object-contain object-center'} p-2 sm:p-3 transition-all duration-500 group-hover:scale-105 group-hover:opacity-0`}
+          />
+          <Image
+            src={secondaryImage}
+            alt={`${product.name} alternate view`}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className={`${product.imageFit === 'cover' ? 'object-cover' : 'object-contain object-center'} p-2 sm:p-3 transition-all duration-500 opacity-0 group-hover:opacity-100 group-hover:scale-105 absolute inset-0`}
+          />
+        </div>
 
         {/* Top Badges */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
-          <span className={`editorial-badge ${getBadgeStyle(product.category)}`}>
-            {product.category.replace('-', ' ')}
-          </span>
+        <div className="absolute top-2 left-2 right-10 sm:top-2.5 sm:left-2.5 sm:right-12 flex items-center gap-1.5 pointer-events-none z-10 flex-wrap">
+          {discountPercent > 0 && !isSoldOut && (
+            <span className="bg-[#FF2D2D] text-white text-[9px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-0.5 rounded-full tracking-wider uppercase shadow-xs shrink-0">
+              {discountPercent}% OFF
+            </span>
+          )}
 
           {(product.isOneOfOne || product.isLimitedEdition) && !isSoldOut && (
-            <span className="editorial-badge bg-white/95 text-[#FF2D2D] border-[#E8E2D8] shadow-xs">
+            <span className="bg-white/95 text-[#FF2D2D] border border-[#E8E2D8] text-[9px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-0.5 rounded-full tracking-wider uppercase shadow-xs shrink-0">
               Limited
             </span>
           )}
@@ -96,28 +92,27 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Wishlist Button */}
         <button
           onClick={handleWishlistToggle}
-          className={`absolute top-2.5 right-2.5 z-20 p-2 rounded-full transition-all duration-200 shadow-sm ${
-            isWishlisted
+          className={`absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-20 p-2 sm:p-2 rounded-full transition-all duration-200 shadow-sm ${isWishlisted
               ? 'bg-[#FF2D2D] text-white'
               : 'bg-white/90 text-stone-600 hover:text-[#FF2D2D] hover:bg-white'
-          }`}
+            }`}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <Heart className={`w-3.5 h-3.5 ${isWishlisted ? 'fill-current' : ''}`} />
+          <Heart className={`w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
 
         {/* Sold Out Overlay */}
         {isSoldOut && (
-          <div className="absolute inset-0 bg-[#1A1816]/65 backdrop-blur-[2px] flex items-center justify-center z-10">
-            <span className="px-4 py-1.5 bg-[#FAF7F2] text-[#1A1816] text-xs font-semibold uppercase tracking-widest border border-stone-300 shadow-lg">
+          <div className="absolute inset-0 bg-[#1A1816]/65 backdrop-blur-[2px] flex items-center justify-center z-10 p-2">
+            <span className="px-3 py-1 sm:px-4 sm:py-1.5 bg-[#FAF7F2] text-[#1A1816] text-[10px] sm:text-xs font-semibold uppercase tracking-widest border border-stone-300 shadow-lg text-center">
               Sold Out
             </span>
           </div>
         )}
 
-        {/* Quick Add Button Overlay */}
+        {/* Quick Add Button Overlay (Desktop Hover) */}
         {!isSoldOut && (
-          <div className="absolute inset-x-2.5 bottom-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
+          <div className="hidden sm:block absolute inset-x-2.5 bottom-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
             <button
               onClick={handleQuickAdd}
               disabled={isAdding}
@@ -138,33 +133,47 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       {/* Card Info Section */}
-      <div className="p-4 flex flex-col justify-between flex-1 space-y-2">
+      <div className="p-2.5 sm:p-4 flex flex-col justify-between flex-1 space-y-1.5 sm:space-y-2">
         <div>
-          <div className="flex items-center justify-between text-[10px] text-[#7A7268] uppercase tracking-widest font-mono">
-            <span>{product.brand || 'MST Ecosystem'}</span>
-            {product.sku && <span>{product.sku}</span>}
-          </div>
-          <h3 className="font-serif-editorial text-sm font-medium text-[#1A1816] group-hover:text-[#FF2D2D] transition line-clamp-1 mt-1">
+          <h3 className="font-sans text-xs sm:text-sm font-semibold text-[#1A1816] group-hover:text-[#FF2D2D] transition-colors line-clamp-2 min-h-[2rem] sm:min-h-0 leading-snug tracking-tight">
             <Link href={`/product/${product.slug}`}>
               {product.name}
             </Link>
           </h3>
         </div>
 
-        <div className="pt-2 border-t border-[#F4EFEA] flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="font-serif-editorial text-sm font-semibold text-[#1A1816]">
+        <div className="pt-2 border-t border-[#F4EFEA] flex items-center justify-between gap-1">
+          <div className="flex items-baseline gap-1 sm:gap-2 flex-wrap">
+            <span className="text-xs sm:text-sm font-semibold text-[#1A1816]">
               ₹{product.sellingPrice.toLocaleString('en-IN')}
             </span>
-            {product.referencePrice && product.referencePrice > product.sellingPrice && (
-              <span className="text-[11px] text-[#8E877D] line-through font-mono">
-                ₹{product.referencePrice.toLocaleString('en-IN')}
+            {rawReference && rawReference > product.sellingPrice && (
+              <span className="text-[10px] sm:text-[11px] text-[#8E877D] line-through">
+                ₹{rawReference.toLocaleString('en-IN')}
               </span>
             )}
           </div>
-          <span className="text-[10px] uppercase font-mono tracking-wider text-[#7A7268]">
-            {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
-          </span>
+
+          {/* Quick Add touch button for mobile screens */}
+          <div className="flex items-center">
+            {!isSoldOut ? (
+              <button
+                onClick={handleQuickAdd}
+                disabled={isAdding}
+                aria-label={`Quick add ${product.name}`}
+                className="sm:hidden p-2 min-w-[30px] min-h-[30px] rounded-sm bg-[#1A1816] text-white hover:bg-[#FF2D2D] active:scale-95 transition-all shadow-xs flex items-center justify-center"
+              >
+                {isAdding ? <Check className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+              </button>
+            ) : (
+              <span className="sm:hidden text-[9px] uppercase font-mono tracking-wider text-[#7A7268]">
+                Out
+              </span>
+            )}
+            <span className="hidden sm:inline text-[10px] uppercase font-mono tracking-wider text-[#7A7268]">
+              {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+            </span>
+          </div>
         </div>
       </div>
     </div>

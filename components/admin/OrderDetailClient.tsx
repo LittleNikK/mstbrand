@@ -93,7 +93,7 @@ export default function OrderDetailClient({ order }: OrderDetailClientProps) {
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-contain object-center p-1 bg-black/40"
                     />
                   </div>
 

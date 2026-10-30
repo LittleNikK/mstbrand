@@ -68,7 +68,7 @@ export default function CartPage() {
 
   return (
     <div className="bg-[#FAF7F2] min-h-screen py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1720px] w-full mx-auto px-3 sm:px-6 lg:px-10 xl:px-12">
         <div className="border-b border-[#E8E2D8] pb-6 mb-8">
           <h1 className="font-serif-editorial text-3xl sm:text-4xl text-[#1A1816]">
             Shopping Bag
@@ -107,7 +107,7 @@ export default function CartPage() {
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-contain object-center p-1 bg-white"
                     />
                   </div>
 
@@ -115,14 +115,11 @@ export default function CartPage() {
                     <div>
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <span className="text-[10px] uppercase tracking-wider text-[#7A7268] font-semibold font-mono">
-                            {item.brand || 'MST Ecosystem'}
-                          </span>
-                          <h3 className="font-serif-editorial text-base font-medium text-[#1A1816] hover:text-[#FF2D2D] mt-0.5">
+                          <h3 className="font-sans text-base font-semibold text-[#1A1816] hover:text-[#FF2D2D] transition-colors tracking-tight">
                             <Link href={`/product/${item.slug}`}>{item.name}</Link>
                           </h3>
                         </div>
-                        <span className="font-serif-editorial text-lg font-semibold text-[#1A1816]">
+                        <span className="text-lg font-semibold text-[#1A1816]">
                           ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                         </span>
                       </div>
@@ -232,12 +229,12 @@ export default function CartPage() {
               <div className="space-y-2 text-xs text-[#5C564E] pt-2">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-[#1A1816] font-medium font-mono">₹{subtotal.toLocaleString('en-IN')}</span>
+                  <span className="text-[#1A1816] font-medium">₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-[#FF2D2D] font-medium">
                     <span>Discount ({discountCode})</span>
-                    <span className="font-mono">-₹{discountAmount.toLocaleString('en-IN')}</span>
+                    <span>-₹{discountAmount.toLocaleString('en-IN')}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
@@ -251,9 +248,9 @@ export default function CartPage() {
                   <span className="text-[#1A1816] font-medium">Inclusive</span>
                 </div>
 
-                <div className="flex justify-between pt-3 border-t border-[#E8E2D8] text-base font-serif-editorial font-semibold text-[#1A1816]">
+                <div className="flex justify-between pt-3 border-t border-[#E8E2D8] text-base font-semibold text-[#1A1816]">
                   <span>Total</span>
-                  <span className="font-mono">₹{total.toLocaleString('en-IN')}</span>
+                  <span className="font-bold">₹{total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
