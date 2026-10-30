@@ -1,9 +1,9 @@
 import { MongoClient } from 'mongodb';
 
 async function verify() {
-  const client = new MongoClient('mongodb://127.0.0.1:27017');
+  const client = new MongoClient(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017');
   await client.connect();
-  const db = client.db('second_story');
+  const db = client.db(process.env.MONGODB_DB_NAME || 'mst_store');
 
   const latestOrder = await db.collection('orders').findOne({}, { sort: { createdAt: -1 } });
   console.log('✓ LATEST ORDER FOUND:', latestOrder?.orderNumber);
