@@ -1,18 +1,23 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient, ObjectId, Db } from 'mongodb';
 import bcrypt from 'bcryptjs';
 
 import { ensureIndexes } from '../lib/db/indexes';
 
-export async function seedDatabase(customUri?: string, customDb?: string) {
+export async function seedDatabase(customUri?: string, customDb?: string, existingDb?: Db) {
   const uri = customUri || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017';
   const dbName = customDb || process.env.MONGODB_DB_NAME || 'mst_store';
 
   console.log('--- MST STORE DATABASE SEED ---');
-  console.log(`Connecting to: ${uri}/${dbName}`);
 
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db(dbName);
+  let db: Db;
+  if (existingDb) {
+    db = existingDb;
+  } else {
+    console.log(`Connecting to: ${uri}/${dbName}`);
+    const client = new MongoClient(uri);
+    await client.connect();
+    db = client.db(dbName);
+  }
 
   // Clear existing collections safely
   console.log('Clearing existing records...');
