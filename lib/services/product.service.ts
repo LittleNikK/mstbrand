@@ -52,10 +52,10 @@ export async function getProducts(filters: ProductQueryFilters = {}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const query: Filter<any> = {};
 
-  // Status filter (default to published for public store)
-  if (filters.status) {
+  // Status filter (default to published for public store, omit when 'all' is specified)
+  if (filters.status && filters.status !== 'all') {
     query.status = filters.status;
-  } else {
+  } else if (!filters.status && filters.status !== 'all') {
     query.status = 'published';
   }
 
@@ -283,6 +283,8 @@ export async function updateProduct(
     ...input,
     updatedAt: now,
   };
+  // Ensure _id is never present in $set to avoid MongoServerError: immutable field
+  delete (updatedDoc as Record<string, unknown>)._id;
 
   await db.collection('products').updateOne(
     { _id: new ObjectId(id) },

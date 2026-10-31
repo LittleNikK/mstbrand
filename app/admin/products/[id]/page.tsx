@@ -306,6 +306,15 @@ export default function EditProductPage() {
         ...formData.variants.map(v => v.size).filter((s): s is string => Boolean(s && s.trim())),
       ]));
 
+      const sellingPriceNum = Number(formData.sellingPrice);
+      // Auto-sync variant price & stock if only a single variant exists
+      const syncedVariants = formData.variants.length === 1
+        ? [{ ...formData.variants[0], price: sellingPriceNum, stock: totalStock }]
+        : formData.variants.map(v => ({
+            ...v,
+            price: (v.price && v.price > 0) ? v.price : sellingPriceNum,
+          }));
+
       const payload = {
         name: formData.name,
         slug: formData.slug,
@@ -317,12 +326,12 @@ export default function EditProductPage() {
         material: formData.material,
         imageFit: formData.imageFit || 'contain',
         images: formData.images,
-        variants: formData.variants,
+        variants: syncedVariants,
         sizes: allSizes,
-        sellingPrice: Number(formData.sellingPrice),
+        sellingPrice: sellingPriceNum,
         referencePrice: formData.referencePrice
           ? Number(formData.referencePrice)
-          : (formData.costPrice && Number(formData.costPrice) > Number(formData.sellingPrice) ? Number(formData.costPrice) : undefined),
+          : (formData.costPrice && Number(formData.costPrice) > sellingPriceNum ? Number(formData.costPrice) : undefined),
         costPrice: formData.costPrice ? Number(formData.costPrice) : undefined,
         stock: totalStock,
         status: formData.status,
@@ -341,6 +350,7 @@ export default function EditProductPage() {
       }
 
       success(`Product "${formData.name}" updated successfully!`);
+      router.refresh();
       router.push('/admin/products');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error updating product';

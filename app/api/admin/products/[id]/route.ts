@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireStaffOrAdmin } from '@/lib/auth/session';
 import { updateProduct, deleteProduct, getProductById } from '@/lib/services/product.service';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(
   _request: Request,
@@ -34,6 +37,19 @@ export async function PUT(
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
+    // Immediately purge Next.js server caches for storefront and admin views
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/admin/products');
+      revalidatePath(`/admin/products/${id}`);
+      if (updated.slug) {
+        revalidatePath(`/product/${updated.slug}`);
+      }
+    } catch (cacheErr) {
+      console.warn('Revalidate cache warning:', cacheErr);
+    }
+
     return NextResponse.json({ success: true, product: updated });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Update failed';
@@ -52,6 +68,15 @@ export async function DELETE(
     const success = await deleteProduct(id, session);
     if (!success) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+
+    // Immediately purge Next.js server caches
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/admin/products');
+    } catch (cacheErr) {
+      console.warn('Revalidate cache warning:', cacheErr);
     }
 
     return NextResponse.json({ success: true, message: 'Product deleted' });

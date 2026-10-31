@@ -30,6 +30,15 @@ export async function GET() {
       // ignore
     }
 
+    let databasesOnCluster: string[] = [];
+    try {
+      const adminDb = db.admin();
+      const dbs = await adminDb.listDatabases();
+      databasesOnCluster = dbs.databases.map(d => `${d.name} (${d.sizeOnDisk ? Math.round(d.sizeOnDisk / 1024) + ' KB' : 'empty'})`);
+    } catch (e) {
+      databasesOnCluster = [`Could not list: ${(e as Error).message}`];
+    }
+
     return NextResponse.json({
       status: 'healthy',
       database: {
@@ -37,6 +46,7 @@ export async function GET() {
         latencyMs,
         actualDbName: db.databaseName,
         clusterHost,
+        databasesOnCluster,
         uriPreview: uriMasked,
         isLocalhost,
         warning: isLocalhost && process.env.NODE_ENV === 'production'

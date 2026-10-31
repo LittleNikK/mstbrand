@@ -25,7 +25,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
     limit: 50,
     q,
     category,
-    status: undefined, // Include all statuses in admin
+    status: 'all', // Include all statuses (draft, published, archived) in admin
   });
 
   return (

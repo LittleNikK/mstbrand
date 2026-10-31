@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { requireStaffOrAdmin } from '@/lib/auth/session';
 import { createProduct, getProducts } from '@/lib/services/product.service';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
@@ -26,6 +29,15 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const product = await createProduct(body, session);
+
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/shop');
+      revalidatePath('/admin/products');
+    } catch (cacheErr) {
+      console.warn('Revalidate cache warning:', cacheErr);
+    }
+
     return NextResponse.json({ success: true, product }, { status: 201 });
   } catch (error: unknown) {
     let message = 'Failed to create product';
