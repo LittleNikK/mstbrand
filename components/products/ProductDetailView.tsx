@@ -223,7 +223,19 @@ export default function ProductDetailView({
     ? product.variants.find(v => v.size === selectedSize)
     : undefined;
 
+  // Differentiated pricing check: Only override base sellingPrice if variants actually have distinct prices (e.g., Luggage 20" vs 28")
+  const hasDifferentiatedVariantPrices = useMemo(() => {
+    if (!product.variants || product.variants.length <= 1) return false;
+    const prices = product.variants
+      .map(v => v.price)
+      .filter((p): p is number => typeof p === 'number' && p > 0);
+    return prices.length > 1 && new Set(prices).size > 1;
+  }, [product.variants]);
+
   const getPriceForSize = (size: string) => {
+    if (!hasDifferentiatedVariantPrices) {
+      return product.sellingPrice;
+    }
     const variant = product.variants?.find(v => v.size === size);
     if (variant && typeof variant.price === 'number' && variant.price > 0) {
       return variant.price;
@@ -298,9 +310,7 @@ export default function ProductDetailView({
     };
   };
 
-  const effectivePrice = (selectedVariant && typeof selectedVariant.price === 'number' && selectedVariant.price > 0)
-    ? selectedVariant.price
-    : product.sellingPrice;
+  const effectivePrice = selectedSize ? getPriceForSize(selectedSize) : product.sellingPrice;
 
   // Resolve reference/MRP price: check explicit referencePrice, or fallback to costPrice if costPrice was entered as MRP
   const rawReference = (product.referencePrice && product.referencePrice > 0)
@@ -327,7 +337,7 @@ export default function ProductDetailView({
   const handleAddToCart = () => {
     if (isSoldOut) return;
     setIsAdding(true);
-    addItem(product, 1, selectedVariant?.id);
+    addItem(product, 1, selectedVariant?.id, selectedSize);
     success(`"${product.name}" (${selectedSize}) added to your bag.`);
     openCart();
     setTimeout(() => setIsAdding(false), 600);
@@ -335,7 +345,7 @@ export default function ProductDetailView({
 
   const handleBuyNow = () => {
     if (isSoldOut) return;
-    addItem(product, 1, selectedVariant?.id);
+    addItem(product, 1, selectedVariant?.id, selectedSize);
     router.push('/checkout');
   };
 

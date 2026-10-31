@@ -352,8 +352,22 @@ export default function NewProductPage() {
         ? formData.variants.reduce((sum, v) => sum + Number(v.stock || 0), 0)
         : Number(formData.stock) || 0;
 
+      const sellingPriceNum = Number(formData.sellingPrice);
+      const prices = formData.variants.map(v => v.price).filter((p): p is number => typeof p === 'number' && p > 0);
+      const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+      const syncedVariants = (!hasDifferentiated || formData.variants.length <= 1)
+        ? formData.variants.map(v => ({
+            ...v,
+            price: sellingPriceNum,
+            stock: formData.variants.length === 1 ? totalStock : v.stock,
+          }))
+        : formData.variants.map(v => ({
+            ...v,
+            price: (v.price && v.price > 0) ? v.price : sellingPriceNum,
+          }));
+
       const allSizes = Array.from(new Set(
-        formData.variants.map(v => v.size).filter((s): s is string => Boolean(s && s.trim()))
+        syncedVariants.map(v => v.size).filter((s): s is string => Boolean(s && s.trim()))
       ));
 
       const payload = {
@@ -366,7 +380,7 @@ export default function NewProductPage() {
         color: formData.color,
         material: formData.material,
         specifications,
-        variants: formData.variants,
+        variants: syncedVariants,
         sizes: allSizes,
         imageFit: formData.imageFit || 'contain',
         images: formData.images,
@@ -644,7 +658,23 @@ export default function NewProductPage() {
                 required
                 min={0}
                 value={formData.sellingPrice}
-                onChange={e => setFormData({ ...formData, sellingPrice: e.target.value })}
+                onChange={e => {
+                  const val = e.target.value;
+                  const newPrice = Number(val);
+                  setFormData(prev => {
+                    const prevPrice = Number(prev.sellingPrice);
+                    const prices = prev.variants.map(v => v.price).filter((p): p is number => typeof p === 'number' && p > 0);
+                    const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+                    const updatedVariants = (!hasDifferentiated || prev.variants.length <= 1)
+                      ? prev.variants.map(v => ({ ...v, price: newPrice || 0 }))
+                      : prev.variants.map(v => (v.price === prevPrice || !v.price) ? { ...v, price: newPrice || 0 } : v);
+                    return {
+                      ...prev,
+                      sellingPrice: val,
+                      variants: updatedVariants,
+                    };
+                  });
+                }}
                 placeholder="2499"
                 className="w-full bg-white/5 border border-white/10 text-white px-3.5 py-2.5 text-xs rounded-sm focus:border-[#FF2D2D] outline-none font-semibold"
               />

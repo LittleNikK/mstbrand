@@ -279,6 +279,29 @@ export async function updateProduct(
     });
   }
 
+  // Auto-sync variant prices if sellingPrice is updated and variants do not have differentiated prices
+  if (typeof input.sellingPrice === 'number' && input.sellingPrice > 0) {
+    if (Array.isArray(input.variants) && input.variants.length > 0) {
+      const prices = input.variants.map(v => v.price).filter((p): p is number => typeof p === 'number' && p > 0);
+      const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+      if (!hasDifferentiated || input.variants.length <= 1) {
+        input.variants = input.variants.map(v => ({
+          ...v,
+          price: input.sellingPrice!,
+        }));
+      }
+    } else if (Array.isArray(current.variants) && current.variants.length > 0 && !input.variants) {
+      const prices = current.variants.map((v: { price?: number }) => v.price).filter((p: unknown): p is number => typeof p === 'number' && p > 0);
+      const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+      if (!hasDifferentiated || current.variants.length <= 1) {
+        (input as Record<string, unknown>).variants = current.variants.map((v: Record<string, unknown>) => ({
+          ...v,
+          price: input.sellingPrice,
+        }));
+      }
+    }
+  }
+
   const updatedDoc = {
     ...input,
     updatedAt: now,

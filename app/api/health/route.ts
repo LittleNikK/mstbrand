@@ -39,8 +39,35 @@ export async function GET() {
       databasesOnCluster = [`Could not list: ${(e as Error).message}`];
     }
 
+    // Auto-heal any stale variant prices where variant price didn't match product sellingPrice
+    // unless variants have differentiated prices (e.g. luggage 20" vs 28")
+    let healedVariantsCount = 0;
+    try {
+      const allProducts = await db.collection('products').find({}).toArray();
+      for (const p of allProducts) {
+        if (Array.isArray(p.variants) && p.variants.length > 0 && typeof p.sellingPrice === 'number' && p.sellingPrice > 0) {
+          const prices = p.variants.map((v: { price?: number }) => v.price).filter((pr: unknown): pr is number => typeof pr === 'number' && pr > 0);
+          const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+          if (!hasDifferentiated || p.variants.length <= 1) {
+            const needsUpdate = p.variants.some((v: { price?: number }) => v.price !== p.sellingPrice);
+            if (needsUpdate) {
+              const updatedVariants = p.variants.map((v: Record<string, unknown>) => ({ ...v, price: p.sellingPrice }));
+              await db.collection('products').updateOne(
+                { _id: p._id },
+                { $set: { variants: updatedVariants, updatedAt: new Date().toISOString() } }
+              );
+              healedVariantsCount++;
+            }
+          }
+        }
+      }
+    } catch (healErr) {
+      console.warn('Variant auto-heal note:', healErr);
+    }
+
     return NextResponse.json({
       status: 'healthy',
+      healedVariantsCount,
       database: {
         connected: true,
         latencyMs,

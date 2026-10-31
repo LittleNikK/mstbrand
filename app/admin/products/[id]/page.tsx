@@ -307,9 +307,14 @@ export default function EditProductPage() {
       ]));
 
       const sellingPriceNum = Number(formData.sellingPrice);
-      // Auto-sync variant price & stock if only a single variant exists
-      const syncedVariants = formData.variants.length === 1
-        ? [{ ...formData.variants[0], price: sellingPriceNum, stock: totalStock }]
+      const prices = formData.variants.map(v => v.price).filter((p): p is number => typeof p === 'number' && p > 0);
+      const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+      const syncedVariants = (!hasDifferentiated || formData.variants.length <= 1)
+        ? formData.variants.map(v => ({
+            ...v,
+            price: sellingPriceNum,
+            stock: formData.variants.length === 1 ? totalStock : v.stock,
+          }))
         : formData.variants.map(v => ({
             ...v,
             price: (v.price && v.price > 0) ? v.price : sellingPriceNum,
@@ -514,7 +519,23 @@ export default function EditProductPage() {
                 required
                 min={1}
                 value={formData.sellingPrice}
-                onChange={e => setFormData({ ...formData, sellingPrice: e.target.value })}
+                onChange={e => {
+                  const val = e.target.value;
+                  const newPrice = Number(val);
+                  setFormData(prev => {
+                    const prevPrice = Number(prev.sellingPrice);
+                    const prices = prev.variants.map(v => v.price).filter((p): p is number => typeof p === 'number' && p > 0);
+                    const hasDifferentiated = prices.length > 1 && new Set(prices).size > 1;
+                    const updatedVariants = (!hasDifferentiated || prev.variants.length <= 1)
+                      ? prev.variants.map(v => ({ ...v, price: newPrice || 0 }))
+                      : prev.variants.map(v => (v.price === prevPrice || !v.price) ? { ...v, price: newPrice || 0 } : v);
+                    return {
+                      ...prev,
+                      sellingPrice: val,
+                      variants: updatedVariants,
+                    };
+                  });
+                }}
                 className="w-full bg-white/5 border border-white/10 text-white px-3 py-2 text-sm rounded-xs focus:border-[#FF2D2D] outline-none font-bold"
               />
               <p className="text-[10px] text-white/40 mt-1">Price customer pays at checkout</p>

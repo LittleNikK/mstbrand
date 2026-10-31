@@ -146,7 +146,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const v = product.variants.find(varItem => varItem.id === selectedVariantId);
         if (v) {
           availableStock = v.stock;
-          if (v.price) price = v.price;
+          const prices = product.variants
+            .map(item => item.price)
+            .filter((p): p is number => typeof p === 'number' && p > 0);
+          const hasDifferentiatedPrices = prices.length > 1 && new Set(prices).size > 1;
+          if (hasDifferentiatedPrices && typeof v.price === 'number' && v.price > 0) {
+            price = v.price;
+          } else {
+            price = product.sellingPrice;
+          }
           if (v.sku) sku = v.sku;
         }
       }
