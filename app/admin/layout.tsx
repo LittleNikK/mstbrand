@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getServerSession } from '@/lib/auth/session';
+import { getDb } from '@/lib/db/mongodb';
+import { env } from '@/lib/config/env';
 import {
   LayoutDashboard,
   Shirt,
@@ -11,6 +13,7 @@ import {
   Tag,
   ExternalLink,
   ShieldAlert,
+  Database,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -21,6 +24,17 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession();
+
+  let dbName = 'mst_store';
+  let clusterHost = '';
+  try {
+    const db = await getDb();
+    dbName = db.databaseName;
+    const parsed = new URL(env.MONGODB_URI.replace(/^mongodb(\+srv)?:\/\//, 'http://'));
+    clusterHost = parsed.host;
+  } catch {
+    // ignore
+  }
 
   if (!session) {
     redirect('/login');
@@ -90,11 +104,26 @@ export default async function AdminLayout({
           </nav>
         </div>
 
-        <div className="p-4 border-t border-white/10 space-y-2">
+        <div className="p-4 border-t border-white/10 space-y-2.5">
           <div className="px-3 py-1 text-xs text-white/50 truncate">
             <p className="font-semibold text-white truncate">{session.name}</p>
             <p className="text-[10px] text-[#FF2D2D] uppercase tracking-widest font-bold">{session.role}</p>
           </div>
+
+          {/* Connected Database Info Badge */}
+          <div className="px-3 py-2 bg-black/50 rounded-sm border border-white/10 space-y-1">
+            <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-mono font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <Database className="w-3 h-3" />
+              <span className="truncate">db: {dbName}</span>
+            </div>
+            {clusterHost && (
+              <p className="text-[9px] text-white/40 truncate font-mono" title={clusterHost}>
+                {clusterHost}
+              </p>
+            )}
+          </div>
+
           <Link
             href="/"
             className="flex items-center justify-between px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/10 rounded-sm transition uppercase tracking-wider font-semibold"

@@ -14,18 +14,29 @@ export async function GET() {
     await db.command({ ping: 1 });
     const latencyMs = Date.now() - startTime;
 
-    const [productsCount, usersCount, collectionsCount] = await Promise.all([
+    const [productsCount, usersCount, collectionsCount, latestProduct, latestAudit] = await Promise.all([
       db.collection('products').countDocuments(),
       db.collection('users').countDocuments(),
       db.collection('collections').countDocuments(),
+      db.collection('products').find({}).sort({ updatedAt: -1 }).limit(1).toArray(),
+      db.collection('audit_logs').find({}).sort({ createdAt: -1 }).limit(1).toArray(),
     ]);
+
+    let clusterHost = 'unknown';
+    try {
+      const parsed = new URL(env.MONGODB_URI.replace(/^mongodb(\+srv)?:\/\//, 'http://'));
+      clusterHost = parsed.host;
+    } catch {
+      // ignore
+    }
 
     return NextResponse.json({
       status: 'healthy',
       database: {
         connected: true,
         latencyMs,
-        dbName: env.MONGODB_DB_NAME,
+        actualDbName: db.databaseName,
+        clusterHost,
         uriPreview: uriMasked,
         isLocalhost,
         warning: isLocalhost && process.env.NODE_ENV === 'production'
@@ -36,6 +47,21 @@ export async function GET() {
         products: productsCount,
         users: usersCount,
         collections: collectionsCount,
+      },
+      latestActivity: {
+        product: latestProduct[0] ? {
+          id: latestProduct[0]._id.toString(),
+          name: latestProduct[0].name,
+          updatedAt: latestProduct[0].updatedAt,
+          sellingPrice: latestProduct[0].sellingPrice,
+          stock: latestProduct[0].stock,
+        } : null,
+        lastAuditLog: latestAudit[0] ? {
+          action: latestAudit[0].action,
+          entity: latestAudit[0].entity,
+          userEmail: latestAudit[0].userEmail,
+          createdAt: latestAudit[0].createdAt,
+        } : null,
       },
       hint: productsCount === 0
         ? 'Your database is connected but has 0 products. Visit /api/seed in your browser to populate products and demo logins.'

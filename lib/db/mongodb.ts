@@ -16,15 +16,12 @@ function getMongoUri(): string {
 }
 
 function getDatabaseName(): string {
-  // If explicitly specified in env
-  if (process.env.MONGODB_DB_NAME) {
-    return process.env.MONGODB_DB_NAME;
-  }
-  if (env.MONGODB_DB_NAME && env.MONGODB_DB_NAME !== 'mstbrand') {
-    return env.MONGODB_DB_NAME;
+  // 1. Explicitly specified in env
+  if (process.env.MONGODB_DB_NAME && process.env.MONGODB_DB_NAME.trim()) {
+    return process.env.MONGODB_DB_NAME.trim();
   }
 
-  // If MONGODB_URI contains a database name in the path (e.g. mongodb+srv://.../mst_store?...)
+  // 2. If MONGODB_URI contains a database name in the path (e.g. mongodb+srv://user:pass@host/dbname?params)
   const uri = getMongoUri();
   try {
     const parsed = new URL(uri.replace(/^mongodb(\+srv)?:\/\//, 'http://'));
