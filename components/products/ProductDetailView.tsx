@@ -78,18 +78,20 @@ function RelatedProductCard({ rel }: { rel: Product }) {
       </div>
 
       {/* Info Section Below Card */}
-      <div className="mt-4 sm:mt-4.5 px-0.5">
-        <Link href={`/product/${rel.slug}`}>
-          <h3 className="text-xs sm:text-[13px] text-stone-800 font-normal hover:text-black transition truncate">
-            {rel.name}
+      <div className="mt-3.5 sm:mt-4 px-0.5 space-y-1.5">
+        <div>
+          <h3 className="font-sans text-xs sm:text-sm font-semibold text-[#1A1816] group-hover:text-[#FF2D2D] transition-colors line-clamp-2 min-h-[2rem] sm:min-h-0 leading-snug tracking-tight">
+            <Link href={`/product/${rel.slug}`}>
+              {rel.name}
+            </Link>
           </h3>
-        </Link>
-        <div className="flex items-center gap-1.5 sm:gap-2 mt-1">
-          <span className="text-xs sm:text-sm font-semibold text-stone-900">
+        </div>
+        <div className="flex items-baseline gap-1.5 sm:gap-2 pt-0.5">
+          <span className="text-xs sm:text-sm font-semibold text-[#1A1816]">
             ₹{rel.sellingPrice.toLocaleString('en-IN')}
           </span>
           {rel.referencePrice && rel.referencePrice > rel.sellingPrice && (
-            <span className="text-[10px] sm:text-[11px] text-stone-400 line-through">
+            <span className="text-[10px] sm:text-[11px] text-[#8E877D] line-through">
               ₹{rel.referencePrice.toLocaleString('en-IN')}
             </span>
           )}
@@ -625,7 +627,7 @@ export default function ProductDetailView({
         {relatedProducts && relatedProducts.length > 0 && (
           <div className="mt-16 pt-10 border-t border-[#E8E2D8]">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="font-sans text-xl sm:text-2xl font-bold tracking-tight text-[#1A1816]">
+              <h2 className="font-serif-editorial text-2xl sm:text-3xl text-[#1A1816]">
                 More From The {product.category.replace('-', ' ').toUpperCase()} Collection
               </h2>
               <Link
